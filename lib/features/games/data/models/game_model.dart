@@ -3,7 +3,11 @@ import 'package:rawg_clean/features/games/domain/entities/game_entity.dart';
 
 part 'game_model.g.dart';
 
-@JsonSerializable(explicitToJson: true, createToJson: false)
+@JsonSerializable(
+  fieldRename: FieldRename.snake,
+  explicitToJson: true,
+  createToJson: false,
+)
 class GameModel extends GameEntity {
   const GameModel({
     super.id,

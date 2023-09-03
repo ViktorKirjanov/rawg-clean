@@ -12,7 +12,7 @@ GameModel _$GameModelFromJson(Map<String, dynamic> json) => GameModel(
       name: json['name'] as String?,
       released: json['released'] as String?,
       tba: json['tba'] as bool?,
-      backgroundImage: json['backgroundImage'] as String?,
+      backgroundImage: json['background_image'] as String?,
       rating: (json['rating'] as num?)?.toDouble(),
-      ratingTop: (json['ratingTop'] as num?)?.toDouble(),
+      ratingTop: (json['rating_top'] as num?)?.toDouble(),
     );
