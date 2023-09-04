@@ -39,7 +39,9 @@ class GameList extends StatelessWidget {
           } else {
             return Padding(
               padding: const EdgeInsets.only(bottom: 16.0),
-              child: GameCard(game: games[index]),
+              child: GameCard(
+                game: games[index],
+              ),
             );
           }
         },

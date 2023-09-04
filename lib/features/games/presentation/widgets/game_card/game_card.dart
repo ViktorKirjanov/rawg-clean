@@ -65,7 +65,7 @@ class GameCard extends StatelessWidget {
                   ],
                 ),
                 const InkEffect(),
-                const LikeButton(),
+                LikeButton(game: game),
               ],
             ),
           ),
