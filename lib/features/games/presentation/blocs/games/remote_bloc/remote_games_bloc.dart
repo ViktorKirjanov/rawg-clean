@@ -10,20 +10,19 @@ part 'remote_games_event.dart';
 part 'remote_games_state.dart';
 
 class RemoteGamesBloc extends Bloc<RemoteGamesEvent, RemoteGamesState> {
-  RemoteGamesBloc(this._getGamesUseCase) : super(const Loading()) {
+  RemoteGamesBloc(this._getGamesUseCase) : super(const LoadingRemoteGamesState()) {
     on<GetGames>(_onGetGames);
   }
 
   final GetGamesUseCase _getGamesUseCase;
 
   Future<void> _onGetGames(GetGames event, Emitter<RemoteGamesState> emit) async {
-    emit(const Loading());
     final dataState = await _getGamesUseCase();
 
     if (dataState is DataSuccess) {
-      emit(Success(dataState.data!));
+      emit(SuccessRemoteGamesState(dataState.data!));
     } else {
-      emit(Failed(dataState.error!));
+      emit(FailedRemoteGamesState(dataState.error!));
     }
   }
 }

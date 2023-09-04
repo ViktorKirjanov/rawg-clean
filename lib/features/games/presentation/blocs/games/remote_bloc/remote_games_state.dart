@@ -13,14 +13,14 @@ sealed class RemoteGamesState extends Equatable {
   List<Object?> get props => [games, error];
 }
 
-class Loading extends RemoteGamesState {
-  const Loading();
+class LoadingRemoteGamesState extends RemoteGamesState {
+  const LoadingRemoteGamesState();
 }
 
-class Success extends RemoteGamesState {
-  const Success(PaginationEntity<GameEntity> games) : super(games: games);
+class SuccessRemoteGamesState extends RemoteGamesState {
+  const SuccessRemoteGamesState(PaginationEntity<GameEntity> games) : super(games: games);
 }
 
-class Failed extends RemoteGamesState {
-  const Failed(DioException error) : super(error: error);
+class FailedRemoteGamesState extends RemoteGamesState {
+  const FailedRemoteGamesState(DioException error) : super(error: error);
 }
