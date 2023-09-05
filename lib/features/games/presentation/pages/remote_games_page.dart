@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rawg_clean/config/theme/app_themes.dart';
+import 'package:rawg_clean/core/widgets/background_image.dart';
 import 'package:rawg_clean/core/widgets/loader.dart';
 import 'package:rawg_clean/core/widgets/refresh.dart';
 import 'package:rawg_clean/features/games/presentation/blocs/cubit/combine_games_cubit.dart';
@@ -24,6 +25,7 @@ class RemoteGamesPage extends StatelessWidget {
         ],
         child: Scaffold(
           appBar: AppBar(
+            backgroundColor: Colors.transparent,
             title: const Text('Games'),
             actions: [
               BlocBuilder<LocalGamesBloc, LocalGamesState>(
@@ -45,7 +47,10 @@ class RemoteGamesPage extends StatelessWidget {
               ),
             ],
           ),
-          body: const _GamePageView(),
+          body: const BackgroundImage(
+            image: 'assets/backgrounds/bioshock-infinite.jpg',
+            child: _GamePageView(),
+          ),
         ),
       );
 }
