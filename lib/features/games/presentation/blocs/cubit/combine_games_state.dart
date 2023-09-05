@@ -30,5 +30,8 @@ class CombineGamesState extends Equatable {
     SubmissionStatus? status,
     String? errorMessage,
   }) =>
-      CombineGamesState(status: status ?? this.status);
+      CombineGamesState(
+        status: status ?? this.status,
+        errorMessage: errorMessage ?? this.errorMessage,
+      );
 }

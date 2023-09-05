@@ -60,7 +60,34 @@ class _GamePageView extends StatelessWidget {
           } else if (state.status.isSuccess) {
             return const _GamesState();
           } else if (state.status.isFailure) {
-            return const Center(child: Icon(Icons.error));
+            return Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      state.errorMessage!,
+                      style: const TextStyle(
+                        color: AppTheme.white,
+                      ),
+                    ),
+                    const SizedBox(height: 16.0),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 60.0,
+                      child: OutlinedButton(
+                        onPressed: () {
+                          sl<CombineGamesCubit>().getData(true);
+                        },
+                        child: const Text('Refresh'),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            );
           }
           return const SizedBox.shrink();
         },
@@ -77,7 +104,7 @@ class _GamesState extends StatelessWidget {
             return const Loader();
           } else if (state is SuccessRemoteGamesState) {
             return GameList(
-              games: state.games!.results!,
+              games: state.games.results!,
               isInProgress: false,
               hasMorePages: false,
               onLoad: () {},

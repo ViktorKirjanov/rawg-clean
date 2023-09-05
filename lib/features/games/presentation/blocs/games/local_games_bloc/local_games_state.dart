@@ -21,5 +21,10 @@ class SuccessLocalGamesState extends LocalGamesState {
 }
 
 class FailedLocalGamesState extends LocalGamesState {
-  const FailedLocalGamesState();
+  const FailedLocalGamesState(this.errorMessage);
+
+  final String errorMessage;
+
+  @override
+  List<Object> get props => [errorMessage];
 }

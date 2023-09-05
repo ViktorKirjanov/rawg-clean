@@ -1,7 +1,5 @@
-import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:rawg_clean/core/resources/data_state.dart';
 import 'package:rawg_clean/features/games/domain/entities/game_entity.dart';
 import 'package:rawg_clean/features/games/domain/entities/pagination_entity.dart';
 import 'package:rawg_clean/features/games/domain/usecases/get_games_usecase.dart';
@@ -17,12 +15,11 @@ class RemoteGamesBloc extends Bloc<RemoteGamesEvent, RemoteGamesState> {
   final GetGamesUseCase _getGamesUseCase;
 
   Future<void> _onGetGames(GetGames event, Emitter<RemoteGamesState> emit) async {
-    final dataState = await _getGamesUseCase();
-
-    if (dataState is DataSuccess) {
-      emit(SuccessRemoteGamesState(dataState.data!));
-    } else {
-      emit(FailedRemoteGamesState(dataState.error!));
-    }
+    emit(const LoadingRemoteGamesState());
+    final failureOrResponse = await _getGamesUseCase();
+    failureOrResponse.fold(
+      (failure) => emit(FailedRemoteGamesState(failure.message)),
+      (data) => emit(SuccessRemoteGamesState(games: data)),
+    );
   }
 }

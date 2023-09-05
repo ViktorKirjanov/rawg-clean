@@ -1,16 +1,10 @@
 part of 'remote_games_bloc.dart';
 
 sealed class RemoteGamesState extends Equatable {
-  const RemoteGamesState({
-    this.games,
-    this.error,
-  });
-
-  final PaginationEntity<GameEntity>? games;
-  final DioException? error;
+  const RemoteGamesState();
 
   @override
-  List<Object?> get props => [games, error];
+  List<Object?> get props => [];
 }
 
 class LoadingRemoteGamesState extends RemoteGamesState {
@@ -18,9 +12,16 @@ class LoadingRemoteGamesState extends RemoteGamesState {
 }
 
 class SuccessRemoteGamesState extends RemoteGamesState {
-  const SuccessRemoteGamesState(PaginationEntity<GameEntity> games) : super(games: games);
+  const SuccessRemoteGamesState({required this.games});
+
+  final PaginationEntity<GameEntity> games;
 }
 
 class FailedRemoteGamesState extends RemoteGamesState {
-  const FailedRemoteGamesState(DioException error) : super(error: error);
+  const FailedRemoteGamesState(this.errorMessage);
+
+  final String errorMessage;
+
+  @override
+  List<Object?> get props => [errorMessage];
 }

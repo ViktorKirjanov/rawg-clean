@@ -24,19 +24,39 @@ class LocalGamesBloc extends Bloc<LocalGamesEvent, LocalGamesState> {
   final SaveLocalGamesUseCase _saveLocalGamesUseCase;
 
   Future<void> _onGetGames(GetSavedGames event, Emitter<LocalGamesState> emit) async {
-    final localGames = await _getLocalGamesUseCase();
-    emit(SuccessLocalGamesState(games: localGames));
+    emit(const LoadingLocalGamesState());
+    final failureOrResponse = await _getLocalGamesUseCase();
+    failureOrResponse.fold(
+      (failure) => emit(FailedLocalGamesState(failure.message)),
+      (games) => emit(SuccessLocalGamesState(games: games)),
+    );
   }
 
   Future<void> _onRemoveGame(RemoveGame removeGame, Emitter<LocalGamesState> emit) async {
-    await _removeLocalGamesUseCase(params: removeGame.game);
-    final games = await _getLocalGamesUseCase();
-    emit(SuccessLocalGamesState(games: games));
+    final failureOrResponseOnRemove = await _removeLocalGamesUseCase(game: removeGame.game);
+    await failureOrResponseOnRemove.fold(
+      (failure) async => emit(FailedLocalGamesState(failure.message)),
+      (_) async {
+        final failureOrResponseGetGames = await _getLocalGamesUseCase();
+        failureOrResponseGetGames.fold(
+          (failure) => emit(FailedLocalGamesState(failure.message)),
+          (games) => emit(SuccessLocalGamesState(games: games)),
+        );
+      },
+    );
   }
 
   Future<void> _onSaveGame(SaveGame saveGame, Emitter<LocalGamesState> emit) async {
-    await _saveLocalGamesUseCase(params: saveGame.game);
-    final games = await _getLocalGamesUseCase();
-    emit(SuccessLocalGamesState(games: games));
+    final failureOrResponseOnSave = await _saveLocalGamesUseCase(game: saveGame.game);
+    await failureOrResponseOnSave.fold(
+      (failure) async => emit(FailedLocalGamesState(failure.message)),
+      (_) async {
+        final failureOrResponseGetGames = await _getLocalGamesUseCase();
+        failureOrResponseGetGames.fold(
+          (failure) async => emit(FailedLocalGamesState(failure.message)),
+          (games) => emit(SuccessLocalGamesState(games: games)),
+        );
+      },
+    );
   }
 }
