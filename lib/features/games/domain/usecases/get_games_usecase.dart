@@ -9,5 +9,5 @@ class GetGamesUseCase {
 
   final GameRepository _gameRepository;
 
-  Future<Either<Failure, PaginationEntity<GameEntity>>> call() => _gameRepository.getGames();
+  Future<Either<Failure, PaginationEntity<GameEntity>>> call(int page) => _gameRepository.getGames(page);
 }

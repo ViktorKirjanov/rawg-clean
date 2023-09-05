@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rawg_clean/config/theme/app_themes.dart';
 import 'package:rawg_clean/core/widgets/loader.dart';
+import 'package:rawg_clean/core/widgets/refresh.dart';
 import 'package:rawg_clean/features/games/presentation/blocs/cubit/combine_games_cubit.dart';
 import 'package:rawg_clean/features/games/presentation/blocs/games/local_games_bloc/local_games_bloc.dart';
 import 'package:rawg_clean/features/games/presentation/blocs/games/remote_bloc/remote_games_bloc.dart';
@@ -76,7 +77,7 @@ class _GamePageView extends StatelessWidget {
                     const SizedBox(height: 16.0),
                     SizedBox(
                       width: double.infinity,
-                      height: 60.0,
+                      height: 200.0,
                       child: OutlinedButton(
                         onPressed: () => sl<CombineGamesCubit>().getData(true),
                         child: const Text('Refresh'),
@@ -98,31 +99,36 @@ class _GamesState extends StatelessWidget {
   @override
   Widget build(BuildContext context) => BlocBuilder<RemoteGamesBloc, RemoteGamesState>(
         builder: (_, state) {
-          if (state is LoadingRemoteGamesState) {
+          if (state.status.isInProgress && state.games.isEmpty) {
             return const Loader();
-          } else if (state is SuccessRemoteGamesState) {
-            if (state.games.results!.isNotEmpty) {
-              return GameList(
-                games: state.games.results!,
-                isInProgress: false,
-                hasMorePages: false,
-                onLoad: () {},
-              );
-            } else {
-              return const Center(
-                child: Text(
-                  'No more games!',
-                  style: TextStyle(
-                    color: AppTheme.white,
-                    fontSize: 20.0,
-                  ),
+          } else if (state.games.isNotEmpty) {
+            return RefreshIndicator(
+              onRefresh: () async => context.read<RemoteGamesBloc>().add(const GetFirstPage()),
+              child: GameList(
+                games: state.games,
+                isInProgress: state.status.isInProgress,
+                hasMorePages: state.hasMorePages,
+                onLoad: () => context.read<RemoteGamesBloc>().add(GetNextPage()),
+              ),
+            );
+          } else if (state.status.isSuccess && state.games.isEmpty) {
+            return const Center(
+              child: Text(
+                'No more games!',
+                style: TextStyle(
+                  color: AppTheme.white,
+                  fontSize: 20.0,
                 ),
-              );
-            }
-          } else if (state is FailedRemoteGamesState) {
-            return const Center(child: Icon(Icons.error));
+              ),
+            );
+          } else if (state.status.isFailure) {
+            return Refresh(
+              message: state.errorMessage!,
+              onPressed: () => context.read<RemoteGamesBloc>().add(const GetFirstPage()),
+            );
+          } else {
+            return const SizedBox.shrink();
           }
-          return const SizedBox.shrink();
         },
       );
 }

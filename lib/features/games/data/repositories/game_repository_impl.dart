@@ -23,12 +23,12 @@ class GameRepositoryImpl extends GameRepository {
   final AppDatabase _appDatabase;
 
   @override
-  Future<Either<Failure, PaginationModel<GameEntity>>> getGames() async {
+  Future<Either<Failure, PaginationModel<GameEntity>>> getGames(int page) async {
     try {
       final httpResponse = await _gamesDataSource.getGames(
         apiKey: apiKey,
-        pageSize: 10,
-        page: 1,
+        pageSize: pageSize,
+        page: page,
       );
       return Right(httpResponse.data);
     } on SocketException {
