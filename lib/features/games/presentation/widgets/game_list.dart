@@ -1,7 +1,9 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:rawg_clean/core/widgets/loader.dart';
 import 'package:rawg_clean/features/games/domain/entities/game_entity.dart';
+import 'package:rawg_clean/features/games/presentation/blocs/cubit/combine_games_cubit.dart';
 import 'package:rawg_clean/features/games/presentation/widgets/game_card/game_card.dart';
+import 'package:rawg_clean/injection_container.dart';
 
 class GameList extends StatelessWidget {
   const GameList({
@@ -18,32 +20,35 @@ class GameList extends StatelessWidget {
   final void Function() onLoad;
 
   @override
-  Widget build(BuildContext context) => ListView.builder(
-        padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 32.0),
-        itemCount: games.length + 1,
-        itemBuilder: (context, index) {
-          if (index == games.length - 1) {
-            if (hasMorePages) {
-              onLoad();
+  Widget build(BuildContext context) => RefreshIndicator(
+        onRefresh: () async => sl<CombineGamesCubit>().getData(true),
+        child: ListView.builder(
+          padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 32.0),
+          itemCount: games.length + 1,
+          itemBuilder: (context, index) {
+            if (index == games.length - 1) {
+              if (hasMorePages) {
+                onLoad();
+              }
             }
-          }
-          if (index == games.length) {
-            if (isInProgress) {
-              return const SizedBox(
-                height: 100.0,
-                child: Loader(),
-              );
+            if (index == games.length) {
+              if (isInProgress) {
+                return const SizedBox(
+                  height: 100.0,
+                  child: Loader(),
+                );
+              } else {
+                return const SizedBox();
+              }
             } else {
-              return const SizedBox();
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 16.0),
+                child: GameCard(
+                  game: games[index],
+                ),
+              );
             }
-          } else {
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 16.0),
-              child: GameCard(
-                game: games[index],
-              ),
-            );
-          }
-        },
+          },
+        ),
       );
 }

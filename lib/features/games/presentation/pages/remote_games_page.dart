@@ -78,12 +78,10 @@ class _GamePageView extends StatelessWidget {
                       width: double.infinity,
                       height: 60.0,
                       child: OutlinedButton(
-                        onPressed: () {
-                          sl<CombineGamesCubit>().getData(true);
-                        },
+                        onPressed: () => sl<CombineGamesCubit>().getData(true),
                         child: const Text('Refresh'),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),

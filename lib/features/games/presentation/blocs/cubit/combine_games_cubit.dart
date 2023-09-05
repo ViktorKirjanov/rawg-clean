@@ -48,7 +48,7 @@ class CombineGamesCubit extends Cubit<CombineGamesState> {
                     status: SubmissionStatus.failure,
                     errorMessage: localGamesState.errorMessage,
                   ),
-                )
+                ),
             },
         },
       ).listen((_) {});
