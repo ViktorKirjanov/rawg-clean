@@ -101,12 +101,24 @@ class _GamesState extends StatelessWidget {
           if (state is LoadingRemoteGamesState) {
             return const Loader();
           } else if (state is SuccessRemoteGamesState) {
-            return GameList(
-              games: state.games.results!,
-              isInProgress: false,
-              hasMorePages: false,
-              onLoad: () {},
-            );
+            if (state.games.results!.isNotEmpty) {
+              return GameList(
+                games: state.games.results!,
+                isInProgress: false,
+                hasMorePages: false,
+                onLoad: () {},
+              );
+            } else {
+              return const Center(
+                child: Text(
+                  'No more games!',
+                  style: TextStyle(
+                    color: AppTheme.white,
+                    fontSize: 20.0,
+                  ),
+                ),
+              );
+            }
           } else if (state is FailedRemoteGamesState) {
             return const Center(child: Icon(Icons.error));
           }
