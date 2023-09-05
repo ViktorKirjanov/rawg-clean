@@ -1,15 +1,17 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:rawg_clean/core/constants/constants.dart';
-import 'package:rawg_clean/core/resources/data_state.dart';
+import 'package:rawg_clean/core/errors/failure.dart';
 import 'package:rawg_clean/features/games/data/datasources/local/app_database.dart';
 import 'package:rawg_clean/features/games/data/datasources/remote/games_api_service.dart';
 import 'package:rawg_clean/features/games/data/models/game_model.dart';
 import 'package:rawg_clean/features/games/data/models/pagination_model.dart';
 import 'package:rawg_clean/features/games/domain/entities/game_entity.dart';
 import 'package:rawg_clean/features/games/domain/repositories/game_repository.dart';
+import 'package:sqflite/sqflite.dart';
 
 class GameRepositoryImpl extends GameRepository {
   GameRepositoryImpl(
@@ -21,38 +23,52 @@ class GameRepositoryImpl extends GameRepository {
   final AppDatabase _appDatabase;
 
   @override
-  Future<DataState<PaginationModel<GameModel>>> getGames() async {
+  Future<Either<Failure, PaginationModel<GameEntity>>> getGames() async {
     try {
       final httpResponse = await _gamesDataSource.getGames(
         apiKey: apiKey,
         pageSize: 10,
         page: 1,
       );
-
-      if (httpResponse.response.statusCode == HttpStatus.ok) {
-        return DataSuccess(httpResponse.data);
-      } else {
-        return DataFailed(
-          DioException(
-            error: httpResponse.response.statusMessage,
-            response: httpResponse.response,
-            type: DioExceptionType.badResponse,
-            requestOptions: httpResponse.response.requestOptions,
-          ),
-        );
-      }
+      return Right(httpResponse.data);
+    } on SocketException {
+      return const Left(ConnectionFailure('Failed to connect to the network'));
     } on DioException catch (error) {
       log('🐞Error: $error', stackTrace: error.stackTrace);
-      return DataFailed(error);
+      return Left(ServerFailure(error.message ?? 'Oops, something went wrong'));
     }
   }
 
   @override
-  Future<List<GameModel>> getSavedGames() async => _appDatabase.gameeDao.getGames();
+  Future<Either<Failure, List<GameModel>>> getSavedGames() async {
+    try {
+      final localGames = await _appDatabase.gameeDao.getGames();
+      return Right(localGames);
+    } on DatabaseException catch (error, stackTrace) {
+      log('🐞Error: $error', stackTrace: stackTrace);
+      return Left(DatabaseFailure(error.toString()));
+    }
+  }
 
   @override
-  Future<void> removeGame(GameEntity game) async => _appDatabase.gameeDao.deleteGame(GameModel.fromEntity(game));
+  Future<Either<Failure, bool>> removeGame(GameEntity game) async {
+    try {
+      await _appDatabase.gameeDao.deleteGame(GameModel.fromEntity(game));
+      return const Right(true);
+    } on DatabaseException catch (error, stackTrace) {
+      log('🐞Error: $error', stackTrace: stackTrace);
+      return Left(DatabaseFailure(error.toString()));
+    }
+  }
 
   @override
-  Future<void> saveGame(GameEntity game) async => _appDatabase.gameeDao.insertGame(GameModel.fromEntity(game));
+  Future<Either<Failure, bool>> saveGame(GameEntity game) async {
+    try {
+      await _appDatabase.gameeDao.insertGame(GameModel.fromEntity(game));
+      return const Right(true);
+    } on DatabaseException catch (error, stackTrace) {
+      log('🐞Error: $error', stackTrace: stackTrace);
+      return Left(DatabaseFailure(error.toString()));
+    }
+  }
 }

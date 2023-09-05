@@ -39,16 +39,16 @@ class CombineGamesCubit extends Cubit<CombineGamesState> {
                 emit(
                   state.copyWith(
                     status: SubmissionStatus.failure,
-                    // errorMessage: remoteGamesState.errorMessage,
+                    errorMessage: remoteGamesState.errorMessage,
                   ),
                 )
               else if (localGamesState is FailedLocalGamesState && state.status != SubmissionStatus.failure)
                 emit(
                   state.copyWith(
                     status: SubmissionStatus.failure,
-                    // errorMessage: localGamesState.errorMessage,
+                    errorMessage: localGamesState.errorMessage,
                   ),
-                ),
+                )
             },
         },
       ).listen((_) {});

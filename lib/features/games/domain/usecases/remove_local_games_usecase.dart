@@ -1,12 +1,12 @@
-import 'package:rawg_clean/core/usecases/usecase.dart';
+import 'package:dartz/dartz.dart';
+import 'package:rawg_clean/core/errors/failure.dart';
 import 'package:rawg_clean/features/games/domain/entities/game_entity.dart';
 import 'package:rawg_clean/features/games/domain/repositories/game_repository.dart';
 
-class RemoveLocalGamesUseCase implements UseCase<void, GameEntity> {
+class RemoveLocalGamesUseCase {
   RemoveLocalGamesUseCase(this._gameRepository);
 
   final GameRepository _gameRepository;
 
-  @override
-  Future<void> call({GameEntity? params}) => _gameRepository.removeGame(params!);
+  Future<Either<Failure, bool>> call({required GameEntity game}) => _gameRepository.removeGame(game);
 }

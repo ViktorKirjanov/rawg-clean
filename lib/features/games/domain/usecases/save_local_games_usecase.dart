@@ -1,12 +1,12 @@
-import 'package:rawg_clean/core/usecases/usecase.dart';
+import 'package:dartz/dartz.dart';
+import 'package:rawg_clean/core/errors/failure.dart';
 import 'package:rawg_clean/features/games/domain/entities/game_entity.dart';
 import 'package:rawg_clean/features/games/domain/repositories/game_repository.dart';
 
-class SaveLocalGamesUseCase implements UseCase<void, GameEntity> {
+class SaveLocalGamesUseCase {
   SaveLocalGamesUseCase(this._gameRepository);
 
   final GameRepository _gameRepository;
 
-  @override
-  Future<void> call({GameEntity? params}) => _gameRepository.saveGame(params!);
+  Future<Either<Failure, bool>> call({required GameEntity game}) => _gameRepository.saveGame(game);
 }
