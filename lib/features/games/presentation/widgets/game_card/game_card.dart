@@ -5,10 +5,7 @@ import 'package:rawg_clean/features/games/presentation/widgets/game_card/game_im
 import 'package:rawg_clean/features/games/presentation/widgets/game_card/ink_effect.dart';
 import 'package:rawg_clean/features/games/presentation/widgets/game_card/like_button.dart';
 import 'package:rawg_clean/features/games/presentation/widgets/game_card/name.dart';
-import 'package:rawg_clean/features/games/presentation/widgets/game_card/playstation_logo.dart';
-import 'package:rawg_clean/features/games/presentation/widgets/game_card/rating.dart';
-import 'package:rawg_clean/features/games/presentation/widgets/game_card/windows_logo.dart';
-import 'package:rawg_clean/features/games/presentation/widgets/game_card/xbox_logo.dart';
+import 'package:rawg_clean/features/games/presentation/widgets/game_card/platform_logo.dart';
 
 class GameCard extends StatelessWidget {
   const GameCard({
@@ -42,20 +39,7 @@ class GameCard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Row(
-                              children: [
-                                const PlaystationLogo(),
-                                const SizedBox(width: 8.0),
-                                const XboxLogo(),
-                                const SizedBox(width: 8.0),
-                                const WindowsLogo(),
-                                const Spacer(),
-                                Rating(
-                                  rating: game.rating,
-                                  ratingTop: game.ratingTop,
-                                ),
-                              ],
-                            ),
+                            PlatformLogos(platforms: game.platforms),
                             const SizedBox(height: 8.0),
                             GameName(name: game.name),
                           ],

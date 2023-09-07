@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:floor/floor.dart';
+import 'package:rawg_clean/core/enums/platform_enum.dart';
+import 'package:rawg_clean/core/util/enum_helper.dart';
 import 'package:rawg_clean/features/games/data/models/platform_model.dart';
 import 'package:rawg_clean/features/games/data/models/platforms_model.dart';
 
@@ -19,7 +21,7 @@ class PlatformsModelConverter extends TypeConverter<List<PlatformsModel>, String
             platform: PlatformModel(
               id: platform['id'] as int,
               name: platform['name'] as String,
-              slug: platform['slug'] as String,
+              slug: EnumHelper.stringToEnum(Platform.values, platform['slug'] as String),
             ),
             releasedAt: platforms['released_at'] as String,
           );
@@ -39,7 +41,7 @@ class PlatformsModelConverter extends TypeConverter<List<PlatformsModel>, String
             'platform': {
               'id': i.platform?.id,
               'name': i.platform?.name,
-              'slug': i.platform?.slug,
+              'slug': EnumHelper.enumToString(i.platform?.slug),
             },
             'released_at': i.releasedAt,
           },
@@ -56,7 +58,7 @@ class PlatformModelConverter extends TypeConverter<PlatformModel, String> {
     return PlatformModel(
       id: map['id'] as int,
       name: map['name'] as String,
-      slug: map['slug'] as String,
+      slug: EnumHelper.stringToEnum(Platform.values, map['slug'] as String),
     );
   }
 
@@ -65,7 +67,7 @@ class PlatformModelConverter extends TypeConverter<PlatformModel, String> {
     final Map<String, dynamic> map = {
       'id': value.id,
       'name': value.name,
-      'slug': value.slug,
+      'slug': EnumHelper.enumToString(value.slug),
     };
     return json.encode(map);
   }

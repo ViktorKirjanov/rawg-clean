@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:rawg_clean/core/enums/platform_enum.dart';
 
 part 'platform_entity.g.dart';
 
@@ -16,7 +17,7 @@ class PlatformEntity extends Equatable {
   });
 
   final int? id;
-  final String? slug;
+  final Platform? slug;
   final String? name;
 
   @override
