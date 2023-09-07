@@ -1,12 +1,13 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:rawg_clean/features/games/data/models/platforms_model.dart';
 
 part 'game_entity.g.dart';
 
 @JsonSerializable(
   fieldRename: FieldRename.snake,
   explicitToJson: true,
-  createToJson: false,
+  createToJson: true,
 )
 class GameEntity extends Equatable {
   const GameEntity({
@@ -18,6 +19,7 @@ class GameEntity extends Equatable {
     this.backgroundImage,
     this.rating,
     this.ratingTop,
+    this.platforms = const [],
   });
 
   final int? id;
@@ -28,6 +30,7 @@ class GameEntity extends Equatable {
   final String? backgroundImage;
   final double? rating;
   final double? ratingTop;
+  final List<PlatformsModel> platforms;
 
   @override
   List<Object?> get props => [
@@ -39,5 +42,6 @@ class GameEntity extends Equatable {
         backgroundImage,
         rating,
         ratingTop,
+        platforms,
       ];
 }

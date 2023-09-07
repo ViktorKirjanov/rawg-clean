@@ -85,7 +85,7 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `game` (`id` INTEGER, `slug` TEXT, `name` TEXT, `released` TEXT, `tba` INTEGER, `backgroundImage` TEXT, `rating` REAL, `ratingTop` REAL, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `game` (`id` INTEGER, `slug` TEXT, `name` TEXT, `released` TEXT, `tba` INTEGER, `backgroundImage` TEXT, `rating` REAL, `ratingTop` REAL, `platforms` TEXT NOT NULL, PRIMARY KEY (`id`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -115,7 +115,8 @@ class _$GameeDao extends GameeDao {
                   'tba': item.tba == null ? null : (item.tba! ? 1 : 0),
                   'backgroundImage': item.backgroundImage,
                   'rating': item.rating,
-                  'ratingTop': item.ratingTop
+                  'ratingTop': item.ratingTop,
+                  'platforms': _platformsModelConverter.encode(item.platforms)
                 }),
         _gameModelDeletionAdapter = DeletionAdapter(
             database,
@@ -129,7 +130,8 @@ class _$GameeDao extends GameeDao {
                   'tba': item.tba == null ? null : (item.tba! ? 1 : 0),
                   'backgroundImage': item.backgroundImage,
                   'rating': item.rating,
-                  'ratingTop': item.ratingTop
+                  'ratingTop': item.ratingTop,
+                  'platforms': _platformsModelConverter.encode(item.platforms)
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -153,7 +155,9 @@ class _$GameeDao extends GameeDao {
             tba: row['tba'] == null ? null : (row['tba'] as int) != 0,
             backgroundImage: row['backgroundImage'] as String?,
             rating: row['rating'] as double?,
-            ratingTop: row['ratingTop'] as double?));
+            ratingTop: row['ratingTop'] as double?,
+            platforms:
+                _platformsModelConverter.decode(row['platforms'] as String)));
   }
 
   @override
@@ -166,3 +170,7 @@ class _$GameeDao extends GameeDao {
     await _gameModelDeletionAdapter.delete(game);
   }
 }
+
+// ignore_for_file: unused_element
+final _platformsModelConverter = PlatformsModelConverter();
+final _platformModelConverter = PlatformModelConverter();

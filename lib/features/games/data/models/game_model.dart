@@ -1,5 +1,7 @@
 import 'package:floor/floor.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:rawg_clean/features/games/data/datasources/local/converters/platform_converter.dart';
+import 'package:rawg_clean/features/games/data/models/platforms_model.dart';
 import 'package:rawg_clean/features/games/domain/entities/game_entity.dart';
 
 part 'game_model.g.dart';
@@ -7,9 +9,13 @@ part 'game_model.g.dart';
 @JsonSerializable(
   fieldRename: FieldRename.snake,
   explicitToJson: true,
-  createToJson: false,
+  createToJson: true,
 )
-@Entity(tableName: 'game', primaryKeys: ['id'])
+@Entity(
+  tableName: 'game',
+  primaryKeys: ['id'],
+)
+@TypeConverters([PlatformsModelConverter])
 class GameModel extends GameEntity {
   const GameModel({
     super.id,
@@ -20,6 +26,7 @@ class GameModel extends GameEntity {
     super.backgroundImage,
     super.rating,
     super.ratingTop,
+    super.platforms,
   });
 
   factory GameModel.fromJson(Map<String, dynamic> json) => _$GameModelFromJson(json);
@@ -33,5 +40,8 @@ class GameModel extends GameEntity {
         backgroundImage: game.backgroundImage,
         rating: game.rating,
         ratingTop: game.ratingTop,
+        platforms: game.platforms,
       );
+
+  Map<String, dynamic> toJson() => _$GameModelToJson(this);
 }
