@@ -10,6 +10,11 @@ class AppTheme {
   static final darkTheme = ThemeData(
     scaffoldBackgroundColor: black,
     useMaterial3: true,
+    colorScheme: ColorScheme.fromSeed(
+      primary: Colors.white,
+      seedColor: Colors.white,
+      brightness: Brightness.dark,
+    ),
     appBarTheme: const AppBarTheme(
       color: black,
       centerTitle: true,

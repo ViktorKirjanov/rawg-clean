@@ -66,31 +66,9 @@ class _GamePageView extends StatelessWidget {
           } else if (state.status.isSuccess) {
             return const _GamesState();
           } else if (state.status.isFailure) {
-            return Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      state.errorMessage!,
-                      style: const TextStyle(
-                        color: AppTheme.white,
-                      ),
-                    ),
-                    const SizedBox(height: 16.0),
-                    SizedBox(
-                      width: double.infinity,
-                      height: 200.0,
-                      child: OutlinedButton(
-                        onPressed: () => sl<CombineGamesCubit>().getData(true),
-                        child: const Text('Refresh'),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+            return Refresh(
+              message: state.errorMessage!,
+              onPressed: () => sl<CombineGamesCubit>().getData(true),
             );
           }
           return const SizedBox.shrink();

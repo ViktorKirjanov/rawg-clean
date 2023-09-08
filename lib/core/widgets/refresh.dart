@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rawg_clean/config/theme/app_themes.dart';
 
 class Refresh extends StatelessWidget {
   const Refresh({
@@ -12,7 +13,7 @@ class Refresh extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.all(24.0),
+        padding: const EdgeInsets.all(16.0),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -20,6 +21,10 @@ class Refresh extends StatelessWidget {
               Text(
                 message,
                 textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: AppTheme.white,
+                  fontSize: 20.0,
+                ),
               ),
               const SizedBox(height: 16.0),
               SizedBox(
