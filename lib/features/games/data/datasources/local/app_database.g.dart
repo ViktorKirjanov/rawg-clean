@@ -104,10 +104,10 @@ class _$GameeDao extends GameeDao {
     this.database,
     this.changeListener,
   )   : _queryAdapter = QueryAdapter(database),
-        _gameModelInsertionAdapter = InsertionAdapter(
+        _gameEntityInsertionAdapter = InsertionAdapter(
             database,
             'game',
-            (GameModel item) => <String, Object?>{
+            (GameEntity item) => <String, Object?>{
                   'id': item.id,
                   'slug': item.slug,
                   'name': item.name,
@@ -116,13 +116,13 @@ class _$GameeDao extends GameeDao {
                   'backgroundImage': item.backgroundImage,
                   'rating': item.rating,
                   'ratingTop': item.ratingTop,
-                  'platforms': _platformsModelConverter.encode(item.platforms)
+                  'platforms': _platformsEntityConverter.encode(item.platforms)
                 }),
-        _gameModelDeletionAdapter = DeletionAdapter(
+        _gameEntityDeletionAdapter = DeletionAdapter(
             database,
             'game',
             ['id'],
-            (GameModel item) => <String, Object?>{
+            (GameEntity item) => <String, Object?>{
                   'id': item.id,
                   'slug': item.slug,
                   'name': item.name,
@@ -131,7 +131,7 @@ class _$GameeDao extends GameeDao {
                   'backgroundImage': item.backgroundImage,
                   'rating': item.rating,
                   'ratingTop': item.ratingTop,
-                  'platforms': _platformsModelConverter.encode(item.platforms)
+                  'platforms': _platformsEntityConverter.encode(item.platforms)
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -140,14 +140,14 @@ class _$GameeDao extends GameeDao {
 
   final QueryAdapter _queryAdapter;
 
-  final InsertionAdapter<GameModel> _gameModelInsertionAdapter;
+  final InsertionAdapter<GameEntity> _gameEntityInsertionAdapter;
 
-  final DeletionAdapter<GameModel> _gameModelDeletionAdapter;
+  final DeletionAdapter<GameEntity> _gameEntityDeletionAdapter;
 
   @override
-  Future<List<GameModel>> getGames() async {
+  Future<List<GameEntity>> getGames() async {
     return _queryAdapter.queryList('SELECT * FROM game',
-        mapper: (Map<String, Object?> row) => GameModel(
+        mapper: (Map<String, Object?> row) => GameEntity(
             id: row['id'] as int?,
             slug: row['slug'] as String?,
             name: row['name'] as String?,
@@ -157,20 +157,20 @@ class _$GameeDao extends GameeDao {
             rating: row['rating'] as double?,
             ratingTop: row['ratingTop'] as double?,
             platforms:
-                _platformsModelConverter.decode(row['platforms'] as String)));
+                _platformsEntityConverter.decode(row['platforms'] as String)));
   }
 
   @override
-  Future<void> insertGame(GameModel game) async {
-    await _gameModelInsertionAdapter.insert(game, OnConflictStrategy.abort);
+  Future<void> insertGame(GameEntity game) async {
+    await _gameEntityInsertionAdapter.insert(game, OnConflictStrategy.abort);
   }
 
   @override
-  Future<void> deleteGame(GameModel game) async {
-    await _gameModelDeletionAdapter.delete(game);
+  Future<void> deleteGame(GameEntity game) async {
+    await _gameEntityDeletionAdapter.delete(game);
   }
 }
 
 // ignore_for_file: unused_element
-final _platformsModelConverter = PlatformsModelConverter();
-final _platformModelConverter = PlatformModelConverter();
+final _platformsEntityConverter = PlatformsEntityConverter();
+final _platformEntityConverter = PlatformEntityConverter();

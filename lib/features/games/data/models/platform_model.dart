@@ -7,7 +7,7 @@ part 'platform_model.g.dart';
 @JsonSerializable(
   fieldRename: FieldRename.snake,
   explicitToJson: true,
-  createToJson: true,
+  createToJson: false,
 )
 class PlatformModel extends PlatformEntity {
   const PlatformModel({
@@ -23,6 +23,4 @@ class PlatformModel extends PlatformEntity {
         slug: platform.slug,
         name: platform.name,
       );
-
-  Map<String, dynamic> toJson() => _$PlatformModelToJson(this);
 }

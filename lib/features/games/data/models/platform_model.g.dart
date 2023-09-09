@@ -13,13 +13,6 @@ PlatformModel _$PlatformModelFromJson(Map<String, dynamic> json) =>
       name: json['name'] as String?,
     );
 
-Map<String, dynamic> _$PlatformModelToJson(PlatformModel instance) =>
-    <String, dynamic>{
-      'id': instance.id,
-      'slug': _$PlatformEnumMap[instance.slug],
-      'name': instance.name,
-    };
-
 const _$PlatformEnumMap = {
   Platform.pc: 'pc',
   Platform.playstation5: 'playstation5',

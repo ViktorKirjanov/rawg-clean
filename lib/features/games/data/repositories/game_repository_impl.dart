@@ -40,7 +40,7 @@ class GameRepositoryImpl extends GameRepository {
   }
 
   @override
-  Future<Either<Failure, List<GameModel>>> getSavedGames() async {
+  Future<Either<Failure, List<GameEntity>>> getSavedGames() async {
     try {
       final localGames = await _appDatabase.gameeDao.getGames();
       return Right(localGames);

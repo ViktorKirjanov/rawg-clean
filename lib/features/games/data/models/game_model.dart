@@ -1,6 +1,4 @@
-import 'package:floor/floor.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:rawg_clean/features/games/data/datasources/local/converters/platform_converter.dart';
 import 'package:rawg_clean/features/games/data/models/platforms_model.dart';
 import 'package:rawg_clean/features/games/domain/entities/game_entity.dart';
 
@@ -9,25 +7,30 @@ part 'game_model.g.dart';
 @JsonSerializable(
   fieldRename: FieldRename.snake,
   explicitToJson: true,
-  createToJson: true,
+  createToJson: false,
 )
-@Entity(
-  tableName: 'game',
-  primaryKeys: ['id'],
-)
-@TypeConverters([PlatformsModelConverter])
 class GameModel extends GameEntity {
   const GameModel({
-    super.id,
-    super.slug,
-    super.name,
-    super.released,
-    super.tba,
-    super.backgroundImage,
-    super.rating,
-    super.ratingTop,
-    super.platforms,
-  });
+    int? id,
+    String? slug,
+    String? name,
+    String? released,
+    bool? tba,
+    String? backgroundImage,
+    double? rating,
+    double? ratingTop,
+    List<PlatformsModel>? platforms,
+  }) : super(
+          id: id,
+          slug: slug,
+          name: name,
+          released: released,
+          tba: tba,
+          backgroundImage: backgroundImage,
+          rating: rating,
+          ratingTop: ratingTop,
+          platforms: platforms ?? const [],
+        );
 
   factory GameModel.fromJson(Map<String, dynamic> json) => _$GameModelFromJson(json);
 
@@ -40,8 +43,6 @@ class GameModel extends GameEntity {
         backgroundImage: game.backgroundImage,
         rating: game.rating,
         ratingTop: game.ratingTop,
-        platforms: game.platforms,
+        platforms: game.platforms as List<PlatformsModel>,
       );
-
-  Map<String, dynamic> toJson() => _$GameModelToJson(this);
 }

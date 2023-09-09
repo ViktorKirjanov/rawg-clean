@@ -1,14 +1,14 @@
 import 'package:floor/floor.dart';
-import 'package:rawg_clean/features/games/data/models/game_model.dart';
+import 'package:rawg_clean/features/games/domain/entities/game_entity.dart';
 
 @dao
 abstract class GameeDao {
   @Insert()
-  Future<void> insertGame(GameModel game);
+  Future<void> insertGame(GameEntity game);
 
   @delete
-  Future<void> deleteGame(GameModel game);
+  Future<void> deleteGame(GameEntity game);
 
   @Query('SELECT * FROM game')
-  Future<List<GameModel>> getGames();
+  Future<List<GameEntity>> getGames();
 }

@@ -4,21 +4,21 @@ import 'dart:developer';
 import 'package:floor/floor.dart';
 import 'package:rawg_clean/core/enums/platform_enum.dart';
 import 'package:rawg_clean/core/util/enum_helper.dart';
-import 'package:rawg_clean/features/games/data/models/platform_model.dart';
-import 'package:rawg_clean/features/games/data/models/platforms_model.dart';
+import 'package:rawg_clean/features/games/domain/entities/platform_entity.dart';
+import 'package:rawg_clean/features/games/domain/entities/platforms_entity.dart';
 
-class PlatformsModelConverter extends TypeConverter<List<PlatformsModel>, String> {
+class PlatformsEntityConverter extends TypeConverter<List<PlatformsEntity>, String> {
   @override
-  List<PlatformsModel> decode(String databaseValue) {
+  List<PlatformsEntity> decode(String databaseValue) {
     final List<dynamic> list = json.decode(databaseValue) as List<dynamic>;
 
     try {
-      return List<PlatformsModel>.from(
+      return List<PlatformsEntity>.from(
         list.map((i) {
           final platforms = i as Map<String, dynamic>;
           final Map<String, dynamic> platform = platforms['platform'] as Map<String, dynamic>;
-          return PlatformsModel(
-            platform: PlatformModel(
+          return PlatformsEntity(
+            platform: PlatformEntity(
               id: platform['id'] as int,
               name: platform['name'] as String,
               slug: EnumHelper.stringToEnum(Platform.values, platform['slug'] as String),
@@ -34,7 +34,7 @@ class PlatformsModelConverter extends TypeConverter<List<PlatformsModel>, String
   }
 
   @override
-  String encode(List<PlatformsModel> value) {
+  String encode(List<PlatformsEntity> value) {
     final List<Map<String, dynamic>> list = value
         .map(
           (i) => {
@@ -51,11 +51,11 @@ class PlatformsModelConverter extends TypeConverter<List<PlatformsModel>, String
   }
 }
 
-class PlatformModelConverter extends TypeConverter<PlatformModel, String> {
+class PlatformEntityConverter extends TypeConverter<PlatformEntity, String> {
   @override
-  PlatformModel decode(String databaseValue) {
+  PlatformEntity decode(String databaseValue) {
     final Map<String, dynamic> map = json.decode(databaseValue) as Map<String, dynamic>;
-    return PlatformModel(
+    return PlatformEntity(
       id: map['id'] as int,
       name: map['name'] as String,
       slug: EnumHelper.stringToEnum(Platform.values, map['slug'] as String),
@@ -63,7 +63,7 @@ class PlatformModelConverter extends TypeConverter<PlatformModel, String> {
   }
 
   @override
-  String encode(PlatformModel value) {
+  String encode(PlatformEntity value) {
     final Map<String, dynamic> map = {
       'id': value.id,
       'name': value.name,
