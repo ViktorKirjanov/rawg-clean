@@ -1,14 +1,6 @@
 import 'package:equatable/equatable.dart';
-import 'package:json_annotation/json_annotation.dart';
 import 'package:rawg_clean/features/games/data/models/platforms_model.dart';
 
-part 'game_entity.g.dart';
-
-@JsonSerializable(
-  fieldRename: FieldRename.snake,
-  explicitToJson: true,
-  createToJson: true,
-)
 class GameEntity extends Equatable {
   const GameEntity({
     this.id,

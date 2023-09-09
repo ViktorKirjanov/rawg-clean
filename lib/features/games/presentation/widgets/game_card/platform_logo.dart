@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rawg_clean/core/enums/platform_enum.dart';
-import 'package:rawg_clean/features/games/data/models/platforms_model.dart';
+import 'package:rawg_clean/features/games/domain/entities/platforms_entity.dart';
 
 class PlatformLogos extends StatelessWidget {
   const PlatformLogos({super.key, required this.platforms});
 
-  final List<PlatformsModel> platforms;
+  final List<PlatformsEntity> platforms;
 
   @override
   Widget build(BuildContext context) {
     final List<Widget> logos = [];
     final List<Platform> added = [];
 
-    for (final PlatformsModel platform in platforms) {
+    for (final PlatformsEntity platform in platforms) {
       if (platform.platform != null && !added.contains(platform.platform!.slug)) {
         switch (platform.platform!.slug) {
           case Platform.playstation1:
