@@ -24,4 +24,5 @@ const _$ParentPlatformEnumMap = {
   ParentPlatform.nintendo: 'nintendo',
   ParentPlatform.atari: 'atari',
   ParentPlatform.commodoreAmiga: 'commodore-amiga',
+  ParentPlatform.web: 'web',
 };

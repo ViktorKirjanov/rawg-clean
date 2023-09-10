@@ -85,7 +85,7 @@ class _$AppDatabase extends AppDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `game` (`id` INTEGER, `slug` TEXT, `name` TEXT, `released` TEXT, `tba` INTEGER, `backgroundImage` TEXT, `rating` REAL, `ratingTop` REAL, `platforms` TEXT NOT NULL, PRIMARY KEY (`id`))');
+            'CREATE TABLE IF NOT EXISTS `game` (`id` INTEGER, `slug` TEXT, `name` TEXT, `released` TEXT, `tba` INTEGER, `backgroundImage` TEXT, `rating` REAL, `ratingTop` REAL, `platforms` TEXT NOT NULL, `parentPlatforms` TEXT NOT NULL, PRIMARY KEY (`id`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -116,7 +116,9 @@ class _$GameeDao extends GameeDao {
                   'backgroundImage': item.backgroundImage,
                   'rating': item.rating,
                   'ratingTop': item.ratingTop,
-                  'platforms': _platformsEntityConverter.encode(item.platforms)
+                  'platforms': _platformsEntityConverter.encode(item.platforms),
+                  'parentPlatforms': _parentPlatformsEntityConverter
+                      .encode(item.parentPlatforms)
                 }),
         _gameEntityDeletionAdapter = DeletionAdapter(
             database,
@@ -131,7 +133,9 @@ class _$GameeDao extends GameeDao {
                   'backgroundImage': item.backgroundImage,
                   'rating': item.rating,
                   'ratingTop': item.ratingTop,
-                  'platforms': _platformsEntityConverter.encode(item.platforms)
+                  'platforms': _platformsEntityConverter.encode(item.platforms),
+                  'parentPlatforms': _parentPlatformsEntityConverter
+                      .encode(item.parentPlatforms)
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -157,7 +161,9 @@ class _$GameeDao extends GameeDao {
             rating: row['rating'] as double?,
             ratingTop: row['ratingTop'] as double?,
             platforms:
-                _platformsEntityConverter.decode(row['platforms'] as String)));
+                _platformsEntityConverter.decode(row['platforms'] as String),
+            parentPlatforms: _parentPlatformsEntityConverter
+                .decode(row['parentPlatforms'] as String)));
   }
 
   @override
@@ -174,3 +180,5 @@ class _$GameeDao extends GameeDao {
 // ignore_for_file: unused_element
 final _platformsEntityConverter = PlatformsEntityConverter();
 final _platformEntityConverter = PlatformEntityConverter();
+final _parentPlatformsEntityConverter = ParentPlatformsEntityConverter();
+final _parentPlatformEntityConverter = ParentPlatformEntityConverter();

@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:rawg_clean/features/games/data/models/parent_platforms_model.dart';
 import 'package:rawg_clean/features/games/data/models/platforms_model.dart';
 import 'package:rawg_clean/features/games/domain/entities/game_entity.dart';
 
@@ -20,6 +21,7 @@ class GameModel extends GameEntity {
     double? rating,
     double? ratingTop,
     List<PlatformsModel>? platforms,
+    List<ParentPlatformsModel>? parentPlatforms,
   }) : super(
           id: id,
           slug: slug,
@@ -30,6 +32,7 @@ class GameModel extends GameEntity {
           rating: rating,
           ratingTop: ratingTop,
           platforms: platforms ?? const [],
+          parentPlatforms: parentPlatforms ?? const [],
         );
 
   factory GameModel.fromJson(Map<String, dynamic> json) => _$GameModelFromJson(json);
@@ -44,5 +47,6 @@ class GameModel extends GameEntity {
         rating: game.rating,
         ratingTop: game.ratingTop,
         platforms: game.platforms as List<PlatformsModel>,
+        parentPlatforms: game.parentPlatforms as List<ParentPlatformsModel>,
       );
 }

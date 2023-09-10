@@ -8,7 +8,12 @@ import 'package:sqflite/sqflite.dart' as sqflite;
 
 part 'app_database.g.dart';
 
-@TypeConverters([PlatformsEntityConverter, PlatformEntityConverter])
+@TypeConverters([
+  PlatformsEntityConverter,
+  PlatformEntityConverter,
+  ParentPlatformsEntityConverter,
+  ParentPlatformEntityConverter,
+])
 @Database(
   version: 1,
   entities: [

@@ -1,9 +1,13 @@
 import 'package:equatable/equatable.dart';
 import 'package:floor/floor.dart';
 import 'package:rawg_clean/features/games/data/datasources/local/converters/platform_converter.dart';
+import 'package:rawg_clean/features/games/domain/entities/parent_platforms_entity.dart';
 import 'package:rawg_clean/features/games/domain/entities/platforms_entity.dart';
 
-@TypeConverters([PlatformsEntityConverter])
+@TypeConverters([
+  PlatformsEntityConverter,
+  ParentPlatformsEntityConverter,
+])
 @Entity(
   tableName: 'game',
   primaryKeys: ['id'],
@@ -19,6 +23,7 @@ class GameEntity extends Equatable {
     this.rating,
     this.ratingTop,
     this.platforms = const [],
+    this.parentPlatforms = const [],
   });
 
   final int? id;
@@ -30,6 +35,7 @@ class GameEntity extends Equatable {
   final double? rating;
   final double? ratingTop;
   final List<PlatformsEntity> platforms;
+  final List<ParentPlatformsEntity> parentPlatforms;
 
   @override
   List<Object?> get props => [
@@ -42,5 +48,6 @@ class GameEntity extends Equatable {
         rating,
         ratingTop,
         platforms,
+        parentPlatforms,
       ];
 }

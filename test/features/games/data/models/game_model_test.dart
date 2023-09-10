@@ -1,8 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:rawg_clean/core/enums/parent_platform_enum.dart';
 import 'package:rawg_clean/core/enums/platform_enum.dart';
 import 'package:rawg_clean/features/games/data/models/game_model.dart';
+import 'package:rawg_clean/features/games/data/models/parent_platform_model.dart';
+import 'package:rawg_clean/features/games/data/models/parent_platforms_model.dart';
 import 'package:rawg_clean/features/games/data/models/platform_model.dart';
 import 'package:rawg_clean/features/games/data/models/platforms_model.dart';
 
@@ -36,6 +39,29 @@ void main() {
         releasedAt: '2013-09-17',
       ),
     ],
+    parentPlatforms: [
+      ParentPlatformsModel(
+        platform: ParentPlatformModel(
+          id: 1,
+          name: 'PC',
+          slug: ParentPlatform.pc,
+        ),
+      ),
+      ParentPlatformsModel(
+        platform: ParentPlatformModel(
+          id: 2,
+          name: 'PlayStation',
+          slug: ParentPlatform.playstation,
+        ),
+      ),
+      ParentPlatformsModel(
+        platform: ParentPlatformModel(
+          id: 3,
+          name: 'Xbox',
+          slug: ParentPlatform.xbox,
+        ),
+      ),
+    ],
   );
 
   const gameModel2 = GameModel(
@@ -63,6 +89,29 @@ void main() {
           slug: Platform.xboxSeriesX,
         ),
         releasedAt: '2013-09-17',
+      ),
+    ],
+    parentPlatforms: [
+      ParentPlatformsModel(
+        platform: ParentPlatformModel(
+          id: 1,
+          name: 'PC',
+          slug: ParentPlatform.pc,
+        ),
+      ),
+      ParentPlatformsModel(
+        platform: ParentPlatformModel(
+          id: 2,
+          name: 'PlayStation',
+          slug: ParentPlatform.playstation,
+        ),
+      ),
+      ParentPlatformsModel(
+        platform: ParentPlatformModel(
+          id: 3,
+          name: 'Xbox',
+          slug: ParentPlatform.xbox,
+        ),
       ),
     ],
   );

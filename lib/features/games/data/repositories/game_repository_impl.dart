@@ -7,7 +7,6 @@ import 'package:rawg_clean/core/constants/constants.dart';
 import 'package:rawg_clean/core/errors/failure.dart';
 import 'package:rawg_clean/features/games/data/datasources/local/app_database.dart';
 import 'package:rawg_clean/features/games/data/datasources/remote/games_api_service.dart';
-import 'package:rawg_clean/features/games/data/models/game_model.dart';
 import 'package:rawg_clean/features/games/data/models/pagination_model.dart';
 import 'package:rawg_clean/features/games/domain/entities/game_entity.dart';
 import 'package:rawg_clean/features/games/domain/repositories/game_repository.dart';
@@ -53,7 +52,7 @@ class GameRepositoryImpl extends GameRepository {
   @override
   Future<Either<Failure, bool>> removeGame(GameEntity game) async {
     try {
-      await _appDatabase.gameeDao.deleteGame(GameModel.fromEntity(game));
+      await _appDatabase.gameeDao.deleteGame(game);
       return const Right(true);
     } on DatabaseException catch (error, stackTrace) {
       log('🐞Error: $error', stackTrace: stackTrace);
@@ -64,7 +63,7 @@ class GameRepositoryImpl extends GameRepository {
   @override
   Future<Either<Failure, bool>> saveGame(GameEntity game) async {
     try {
-      await _appDatabase.gameeDao.insertGame(GameModel.fromEntity(game));
+      await _appDatabase.gameeDao.insertGame(game);
       return const Right(true);
     } on DatabaseException catch (error, stackTrace) {
       log('🐞Error: $error', stackTrace: stackTrace);

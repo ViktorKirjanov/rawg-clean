@@ -18,4 +18,7 @@ GameModel _$GameModelFromJson(Map<String, dynamic> json) => GameModel(
       platforms: (json['platforms'] as List<dynamic>?)
           ?.map((e) => PlatformsModel.fromJson(e as Map<String, dynamic>))
           .toList(),
+      parentPlatforms: (json['parent_platforms'] as List<dynamic>?)
+          ?.map((e) => ParentPlatformsModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
