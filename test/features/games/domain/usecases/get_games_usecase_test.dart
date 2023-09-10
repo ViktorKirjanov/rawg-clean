@@ -55,4 +55,34 @@ void main() {
     // assert
     expect(result, const Right<Failure, PaginationEntity<GameEntity>>(pagination));
   });
+
+  // test(
+  //   'should return server failure when the call to remote data source is unsuccessful',
+  //   () async {
+  //     // arrange
+
+  //     final error = DioException(
+  //       response: Response(
+  //         data: {'status_code': 403, 'status_message': 'Can not create an account', 'success': false},
+  //         statusCode: 403,
+  //         requestOptions: RequestOptions(path: ''),
+  //       ),
+  //       type: DioExceptionType.badResponse,
+  //       requestOptions: RequestOptions(path: ''),
+  //     );
+
+  //     // final networkException = NetworkException.getDioException(error);
+
+  //     when(mockGameRepository.getGames(1)).thenThrow(error);
+  //     // act
+  //     final result = await getGamesUseCase(1);
+  //     // assert
+  //     expect(
+  //       result,
+  //       equals(
+  //         Left<ServerFailure, PaginationEntity<GameEntity>>(ServerFailure('Oops, something went wrong')),
+  //       ),
+  //     );
+  //   },
+  // );
 }
