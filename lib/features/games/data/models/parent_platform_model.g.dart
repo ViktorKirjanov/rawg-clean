@@ -25,4 +25,5 @@ const _$ParentPlatformEnumMap = {
   ParentPlatform.atari: 'atari',
   ParentPlatform.commodoreAmiga: 'commodore-amiga',
   ParentPlatform.web: 'web',
+  ParentPlatform.sega: 'sega',
 };

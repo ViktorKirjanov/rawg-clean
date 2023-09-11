@@ -13,4 +13,5 @@ enum ParentPlatform {
   @JsonValue('commodore-amiga')
   commodoreAmiga,
   web,
+  sega,
 }

@@ -26,7 +26,7 @@ class GameRepositoryImpl extends GameRepository {
     try {
       final httpResponse = await _gamesDataSource.getGames(
         apiKey: apiKey,
-        pageSize: pageSize,
+        pageSize: 1000,
         page: page,
       );
       return Right(httpResponse.data);

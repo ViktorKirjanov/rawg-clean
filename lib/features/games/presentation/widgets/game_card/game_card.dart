@@ -5,7 +5,7 @@ import 'package:rawg_clean/features/games/presentation/widgets/game_card/game_im
 import 'package:rawg_clean/features/games/presentation/widgets/game_card/ink_effect.dart';
 import 'package:rawg_clean/features/games/presentation/widgets/game_card/like_button.dart';
 import 'package:rawg_clean/features/games/presentation/widgets/game_card/name.dart';
-import 'package:rawg_clean/features/games/presentation/widgets/game_card/platform_logo.dart';
+import 'package:rawg_clean/features/games/presentation/widgets/game_card/parent_platform_logo.dart';
 
 class GameCard extends StatelessWidget {
   const GameCard({
@@ -39,7 +39,7 @@ class GameCard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            PlatformLogos(platforms: game.platforms),
+                            ParentPlatformLogos(platforms: game.parentPlatforms),
                             const SizedBox(height: 8.0),
                             GameName(name: game.name),
                           ],
