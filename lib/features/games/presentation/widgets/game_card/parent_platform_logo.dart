@@ -117,7 +117,7 @@ class ParentPlatformLogos extends StatelessWidget {
       children: logos
           .map(
             (logo) => Padding(
-              padding: const EdgeInsets.only(right: 8.0),
+              padding: const EdgeInsets.only(right: 12.0),
               child: logo,
             ),
           )

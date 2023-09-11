@@ -25,4 +25,17 @@ class AppTheme {
       ),
     ),
   );
+
+  // Gradients
+
+  static const linearGradient = LinearGradient(
+    colors: [
+      Color.fromARGB(255, 57, 52, 96),
+      Color(0xFF1e2028),
+    ],
+    begin: FractionalOffset.centerLeft,
+    end: FractionalOffset.centerRight,
+    stops: [0.0, 1.0],
+    tileMode: TileMode.clamp,
+  );
 }

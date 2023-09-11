@@ -16,42 +16,42 @@ class GameCard extends StatelessWidget {
   final GameEntity game;
 
   @override
-  Widget build(BuildContext context) => Center(
-        child: SizedBox(
-          height: 280.0,
+  Widget build(BuildContext context) => ClipRRect(
+        borderRadius: const BorderRadius.all(
+          Radius.circular(16.0),
+        ),
+        child: Container(
+          height: 300.0,
+          decoration: const BoxDecoration(
+            gradient: AppTheme.linearGradient,
+          ),
           width: double.infinity,
-          child: ClipRRect(
-            borderRadius: const BorderRadius.all(
-              Radius.circular(16.0),
-            ),
-            child: Stack(
-              children: [
-                Column(
-                  children: [
-                    GameImage(backgroundImage: game.backgroundImage),
-                    Container(
-                      height: 80.0,
-                      width: double.infinity,
-                      color: AppTheme.darkGrey,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            ParentPlatformLogos(platforms: game.parentPlatforms),
-                            const SizedBox(height: 8.0),
-                            GameName(name: game.name),
-                          ],
-                        ),
+          child: Stack(
+            children: [
+              Column(
+                children: [
+                  GameImage(backgroundImage: game.backgroundImage),
+                  SizedBox(
+                    height: 100.0,
+                    width: double.infinity,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ParentPlatformLogos(platforms: game.parentPlatforms),
+                          const SizedBox(height: 12.0),
+                          GameName(name: game.name),
+                        ],
                       ),
                     ),
-                  ],
-                ),
-                const InkEffect(),
-                LikeButton(game: game),
-              ],
-            ),
+                  ),
+                ],
+              ),
+              const InkEffect(),
+              LikeButton(game: game),
+            ],
           ),
         ),
       );
