@@ -1,16 +1,19 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rawg_clean/config/theme/app_themes.dart';
 import 'package:rawg_clean/core/widgets/background_image.dart';
+import 'package:rawg_clean/core/widgets/keyboard_dismisser.dart';
 import 'package:rawg_clean/core/widgets/loader.dart';
 import 'package:rawg_clean/core/widgets/refresh.dart';
 import 'package:rawg_clean/features/games/presentation/blocs/cubit/combine_games_cubit.dart';
 import 'package:rawg_clean/features/games/presentation/blocs/games/local_games_bloc/local_games_bloc.dart';
 import 'package:rawg_clean/features/games/presentation/blocs/games/remote_bloc/remote_games_bloc.dart';
-import 'package:rawg_clean/features/games/presentation/pages/local_games_page.dart';
-import 'package:rawg_clean/features/games/presentation/widgets/game_list.dart';
+import 'package:rawg_clean/features/games/presentation/widgets/android_refresh_indicator.dart';
+import 'package:rawg_clean/features/games/presentation/widgets/sliver_app_bar_custom/sliver_app_bar_custom.dart';
+import 'package:rawg_clean/features/games/presentation/widgets/sliver_list_custom.dart';
 import 'package:rawg_clean/injection_container.dart';
 
 class RemoteGamesPage extends StatelessWidget {
@@ -23,33 +26,12 @@ class RemoteGamesPage extends StatelessWidget {
           BlocProvider<RemoteGamesBloc>(create: (context) => sl()),
           BlocProvider<LocalGamesBloc>(create: (context) => sl()),
         ],
-        child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            title: const Text('Games'),
-            actions: [
-              BlocBuilder<LocalGamesBloc, LocalGamesState>(
-                builder: (context, state) {
-                  if (state is SuccessLocalGamesState) {
-                    return CupertinoButton(
-                      child: const Icon(
-                        FontAwesomeIcons.bookmark,
-                        color: AppTheme.white,
-                        size: 24.0,
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).push(LocalGamesPage.route(games: state.games));
-                      },
-                    );
-                  }
-                  return const SizedBox.shrink();
-                },
-              ),
-            ],
-          ),
-          body: const BackgroundImage(
-            image: 'assets/backgrounds/bioshock-infinite.jpg',
-            child: _GamePageView(),
+        child: const KeyboardDismisser(
+          child: Scaffold(
+            body: BackgroundImage(
+              image: 'assets/backgrounds/bioshock-infinite.jpg',
+              child: _GamePageView(),
+            ),
           ),
         ),
       );
@@ -76,8 +58,45 @@ class _GamePageView extends StatelessWidget {
       );
 }
 
-class _GamesState extends StatelessWidget {
+class _GamesState extends StatefulWidget {
   const _GamesState();
+
+  @override
+  State<_GamesState> createState() => _GamesStateState();
+}
+
+class _GamesStateState extends State<_GamesState> {
+  late ScrollController _scrollController;
+
+  late Color _appBarBackgroundColor = AppTheme.darkBlue.withOpacity(.0);
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+
+    _scrollController.addListener(() {
+      if (_scrollController.offset > 0 && _scrollController.offset <= 75) {
+        setState(() {
+          _appBarBackgroundColor = AppTheme.darkBlue.withOpacity(_scrollController.offset / 75);
+        });
+      } else if (_scrollController.offset <= 0) {
+        setState(() {
+          _appBarBackgroundColor = AppTheme.darkBlue.withOpacity(.0);
+        });
+      } else {
+        setState(() {
+          _appBarBackgroundColor = AppTheme.darkBlue.withOpacity(.75);
+        });
+      }
+
+      if (_appBarBackgroundColor.opacity >= .75) {
+        setState(() {
+          _appBarBackgroundColor = AppTheme.darkBlue.withOpacity(.75);
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) => BlocBuilder<RemoteGamesBloc, RemoteGamesState>(
@@ -85,13 +104,23 @@ class _GamesState extends StatelessWidget {
           if (state.status.isInProgress && state.games.isEmpty) {
             return const Loader();
           } else if (state.games.isNotEmpty) {
-            return RefreshIndicator(
+            return AndroidRefreshIndicator(
               onRefresh: () async => context.read<RemoteGamesBloc>().add(const GetFirstPage()),
-              child: GameList(
-                games: state.games,
-                isInProgress: state.status.isInProgress,
-                hasMorePages: state.hasMorePages,
-                onLoad: () => context.read<RemoteGamesBloc>().add(GetNextPage()),
+              child: CustomScrollView(
+                controller: _scrollController,
+                slivers: [
+                  SliverAppBarCustom(appBarBackgroundColor: _appBarBackgroundColor),
+                  if (Platform.isIOS)
+                    CupertinoSliverRefreshControl(
+                      onRefresh: () async => context.read<RemoteGamesBloc>().add(const GetFirstPage()),
+                    ),
+                  SliverListCustom(
+                    games: state.games,
+                    isInProgress: state.status.isInProgress,
+                    hasMorePages: state.hasMorePages,
+                    onLoad: () => context.read<RemoteGamesBloc>().add(GetNextPage()),
+                  ),
+                ],
               ),
             );
           } else if (state.status.isSuccess && state.games.isEmpty) {
