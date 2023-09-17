@@ -3,8 +3,8 @@ import 'package:rawg_clean/core/widgets/loader.dart';
 import 'package:rawg_clean/features/games/domain/entities/game_entity.dart';
 import 'package:rawg_clean/features/games/presentation/widgets/game_card/game_card.dart';
 
-class SliverListCustom extends StatelessWidget {
-  const SliverListCustom({
+class CustomSliverList extends StatelessWidget {
+  const CustomSliverList({
     super.key,
     required this.games,
     required this.isInProgress,
