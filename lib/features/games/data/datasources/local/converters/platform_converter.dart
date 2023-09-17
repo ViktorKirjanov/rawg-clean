@@ -26,7 +26,7 @@ class PlatformsEntityConverter extends TypeConverter<List<PlatformsEntity>, Stri
               name: platform['name'] as String,
               slug: EnumHelper.stringToEnum(Platform.values, platform['slug'] as String),
             ),
-            releasedAt: platforms['released_at'] as String,
+            releasedAt: platforms.containsKey('released_at') ? platforms['released_at'] as String? : null,
           );
         }),
       );

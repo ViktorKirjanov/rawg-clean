@@ -1,5 +1,6 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rawg_clean/core/enums/submission_status_enum.dart';
 import 'package:rawg_clean/features/games/domain/entities/game_entity.dart';
@@ -10,6 +11,11 @@ part 'remote_games_state.dart';
 
 class RemoteGamesBloc extends Bloc<RemoteGamesEvent, RemoteGamesState> {
   RemoteGamesBloc(this._getGamesUseCase) : super(const RemoteGamesState()) {
+    on<AddSearch>(
+      _onAddSearch,
+      transformer: restartable(),
+    );
+
     on<GetFirstPage>(
       _onGetFirstPage,
       transformer: restartable(),
@@ -27,6 +33,13 @@ class RemoteGamesBloc extends Bloc<RemoteGamesEvent, RemoteGamesState> {
   }
 
   final GetGamesUseCase _getGamesUseCase;
+
+  Future<void> _onAddSearch(
+    AddSearch event,
+    Emitter<RemoteGamesState> emit,
+  ) async {
+    emit(state.copyWith(search: () => event.search));
+  }
 
   Future<void> _onGetFirstPage(
     GetFirstPage event,
@@ -60,7 +73,10 @@ class RemoteGamesBloc extends Bloc<RemoteGamesEvent, RemoteGamesState> {
       ),
     );
 
-    final failureOrResponse = await _getGamesUseCase(event.page);
+    final failureOrResponse = await _getGamesUseCase(
+      event.page,
+      state.search,
+    );
 
     failureOrResponse.fold(
       (failure) {

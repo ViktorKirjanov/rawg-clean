@@ -4,23 +4,27 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rawg_clean/config/theme/app_themes.dart';
 import 'package:rawg_clean/features/games/presentation/blocs/games/remote_bloc/remote_games_bloc.dart';
 
-class SearchTextInput extends StatelessWidget {
-  SearchTextInput({super.key});
+class SearchTextInput extends StatefulWidget {
+  const SearchTextInput({super.key});
 
+  @override
+  State<SearchTextInput> createState() => _SearchTextInputState();
+}
+
+class _SearchTextInputState extends State<SearchTextInput> {
   final _textEditingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) => Debouncer(
         timeout: const Duration(milliseconds: 1000),
-        action: () {
-          // context.read<SearchBloc>()
-          //   ..add(SearchProducts(_textEditingController.text))
-          //   ..add(const GetFirstPage());
-        },
+        action: () => context.read<RemoteGamesBloc>().add(const GetFirstPage()),
         builder: (debouncerContext, _) => Expanded(
           child: _Input(
             textEditingController: _textEditingController,
-            onChanged: () => Debouncer.execute(debouncerContext),
+            onChanged: () {
+              context.read<RemoteGamesBloc>().add(AddSearch(search: _textEditingController.text));
+              Debouncer.execute(debouncerContext);
+            },
           ),
         ),
       );
@@ -35,9 +39,17 @@ class _Input extends StatelessWidget {
   final TextEditingController textEditingController;
   final void Function() onChanged;
 
+  void _clear(BuildContext context) {
+    FocusManager.instance.primaryFocus?.unfocus();
+    textEditingController.clear();
+    context.read<RemoteGamesBloc>()
+      ..add(const AddSearch())
+      ..add(const GetFirstPage());
+  }
+
   @override
   Widget build(BuildContext context) => BlocBuilder<RemoteGamesBloc, RemoteGamesState>(
-        // buildWhen: (previous, current) => previous.search != current.search,
+        buildWhen: (previous, current) => previous.search != current.search,
         builder: (context, state) => SizedBox(
           height: 60.0,
           child: Row(
@@ -46,12 +58,26 @@ class _Input extends StatelessWidget {
                 child: TextFormField(
                   controller: textEditingController,
                   autocorrect: false,
-                  decoration: const InputDecoration(
-                    prefixIcon: Icon(
+                  decoration: InputDecoration(
+                    prefixIcon: const Icon(
                       Icons.search_rounded,
                       color: AppTheme.white,
                     ),
                     hintText: 'Search ...',
+                    suffixIcon: GestureDetector(
+                      onTap: () => _clear(context),
+                      child: state.search != null && state.search!.isNotEmpty
+                          ? Container(
+                              color: Colors.transparent,
+                              height: 56.0,
+                              width: 56.0,
+                              child: const Icon(
+                                Icons.close_rounded,
+                                color: AppTheme.white,
+                              ),
+                            )
+                          : const SizedBox.shrink(),
+                    ),
                   ),
                   onChanged: (_) => onChanged(),
                 ),

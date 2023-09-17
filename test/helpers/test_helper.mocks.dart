@@ -106,11 +106,16 @@ class MockGameRepository extends _i1.Mock implements _i8.GameRepository {
   _i9.Future<
       _i2
       .Either<_i10.Failure, _i11.PaginationEntity<_i12.GameEntity>>> getGames(
-          int? page) =>
+    int? page,
+    String? search,
+  ) =>
       (super.noSuchMethod(
         Invocation.method(
           #getGames,
-          [page],
+          [
+            page,
+            search,
+          ],
         ),
         returnValue: _i9.Future<
                 _i2.Either<_i10.Failure,
@@ -119,7 +124,10 @@ class MockGameRepository extends _i1.Mock implements _i8.GameRepository {
           this,
           Invocation.method(
             #getGames,
-            [page],
+            [
+              page,
+              search,
+            ],
           ),
         )),
       ) as _i9.Future<

@@ -5,7 +5,7 @@ import 'package:rawg_clean/features/games/domain/entities/pagination_entity.dart
 
 abstract class GameRepository {
   // API methods
-  Future<Either<Failure, PaginationEntity<GameEntity>>> getGames(int page);
+  Future<Either<Failure, PaginationEntity<GameEntity>>> getGames(int page, String? search);
 
   //Local Database methods
   Future<Either<Failure, bool>> saveGame(GameEntity game);

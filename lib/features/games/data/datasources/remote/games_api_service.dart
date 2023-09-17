@@ -15,5 +15,6 @@ abstract class GamesDataSource {
     @Query('key') String? apiKey,
     @Query('page_size') int? pageSize,
     @Query('page') int? page,
+    @Query('search') String? search,
   });
 }

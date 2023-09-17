@@ -49,9 +49,9 @@ void main() {
     );
 
     // arange
-    when(mockGameRepository.getGames(1)).thenAnswer((_) async => const Right(pagination));
+    when(mockGameRepository.getGames(1, null)).thenAnswer((_) async => const Right(pagination));
     // act
-    final result = await getGamesUseCase(1);
+    final result = await getGamesUseCase(1, null);
     // assert
     expect(result, const Right<Failure, PaginationEntity<GameEntity>>(pagination));
   });

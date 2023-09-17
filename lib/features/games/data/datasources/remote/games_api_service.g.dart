@@ -25,12 +25,14 @@ class _GamesDataSource implements GamesDataSource {
     String? apiKey,
     int? pageSize,
     int? page,
+    String? search,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'key': apiKey,
       r'page_size': pageSize,
       r'page': page,
+      r'search': search,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};

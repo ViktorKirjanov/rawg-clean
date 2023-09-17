@@ -9,21 +9,24 @@ class SliverAppBarCustom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => SliverAppBar(
-        floating: true,
+        floating: false,
+        pinned: true,
         toolbarHeight: 80,
+        elevation: 0.0,
+        scrolledUnderElevation: 0.0,
         backgroundColor: appBarBackgroundColor,
-        shape: const ContinuousRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(32.0),
             bottomRight: Radius.circular(32.0),
           ),
         ),
-        title: Row(
+        title: const Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             SearchTextInput(),
-            const SizedBox(width: 8.0),
-            const BookmarkButton(),
+            SizedBox(width: 8.0),
+            BookmarkButton(),
           ],
         ),
       );

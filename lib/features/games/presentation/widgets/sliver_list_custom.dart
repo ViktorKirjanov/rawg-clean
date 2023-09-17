@@ -18,31 +18,34 @@ class SliverListCustom extends StatelessWidget {
   final void Function() onLoad;
 
   @override
-  Widget build(BuildContext context) => SliverList.builder(
-        itemCount: games.length + 1,
-        itemBuilder: (context, index) {
-          if (index == games.length - 1) {
-            if (hasMorePages) {
-              onLoad();
+  Widget build(BuildContext context) => SliverSafeArea(
+        top: false,
+        sliver: SliverList.builder(
+          itemCount: games.length + 1,
+          itemBuilder: (context, index) {
+            if (index == games.length - 1) {
+              if (hasMorePages) {
+                onLoad();
+              }
             }
-          }
-          if (index == games.length) {
-            if (isInProgress) {
-              return const SizedBox(
-                height: 100.0,
-                child: Loader(),
-              );
+            if (index == games.length) {
+              if (isInProgress) {
+                return const SizedBox(
+                  height: 100.0,
+                  child: Loader(),
+                );
+              } else {
+                return const SizedBox();
+              }
             } else {
-              return const SizedBox();
+              return Padding(
+                padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
+                child: GameCard(
+                  game: games[index],
+                ),
+              );
             }
-          } else {
-            return Padding(
-              padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
-              child: GameCard(
-                game: games[index],
-              ),
-            );
-          }
-        },
+          },
+        ),
       );
 }

@@ -74,11 +74,10 @@ class _GamesStateState extends State<_GamesState> {
   void initState() {
     super.initState();
     _scrollController = ScrollController();
-
     _scrollController.addListener(() {
       if (_scrollController.offset > 0 && _scrollController.offset <= 75) {
         setState(() {
-          _appBarBackgroundColor = AppTheme.darkBlue.withOpacity(_scrollController.offset / 75);
+          _appBarBackgroundColor = AppTheme.darkBlue.withOpacity(_scrollController.offset / 90);
         });
       } else if (_scrollController.offset <= 0) {
         setState(() {
@@ -86,61 +85,70 @@ class _GamesStateState extends State<_GamesState> {
         });
       } else {
         setState(() {
-          _appBarBackgroundColor = AppTheme.darkBlue.withOpacity(.75);
+          _appBarBackgroundColor = AppTheme.darkBlue.withOpacity(.9);
         });
       }
 
-      if (_appBarBackgroundColor.opacity >= .75) {
+      if (_appBarBackgroundColor.opacity >= .9) {
         setState(() {
-          _appBarBackgroundColor = AppTheme.darkBlue.withOpacity(.75);
+          _appBarBackgroundColor = AppTheme.darkBlue.withOpacity(.9);
         });
       }
     });
   }
 
   @override
-  Widget build(BuildContext context) => BlocBuilder<RemoteGamesBloc, RemoteGamesState>(
-        builder: (_, state) {
-          if (state.status.isInProgress && state.games.isEmpty) {
-            return const Loader();
-          } else if (state.games.isNotEmpty) {
-            return AndroidRefreshIndicator(
-              onRefresh: () async => context.read<RemoteGamesBloc>().add(const GetFirstPage()),
-              child: CustomScrollView(
-                controller: _scrollController,
-                slivers: [
-                  SliverAppBarCustom(appBarBackgroundColor: _appBarBackgroundColor),
-                  if (Platform.isIOS)
-                    CupertinoSliverRefreshControl(
-                      onRefresh: () async => context.read<RemoteGamesBloc>().add(const GetFirstPage()),
-                    ),
-                  SliverListCustom(
+  Widget build(BuildContext context) => AndroidRefreshIndicator(
+        onRefresh: () async => context.read<RemoteGamesBloc>().add(const GetFirstPage()),
+        child: CustomScrollView(
+          controller: _scrollController,
+          slivers: [
+            SliverAppBarCustom(appBarBackgroundColor: _appBarBackgroundColor),
+            if (Platform.isIOS)
+              CupertinoSliverRefreshControl(
+                onRefresh: () async => context.read<RemoteGamesBloc>().add(const GetFirstPage()),
+              ),
+            BlocBuilder<RemoteGamesBloc, RemoteGamesState>(
+              builder: (context, state) {
+                if (state.status.isInProgress && state.games.isEmpty) {
+                  return const SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: Loader(),
+                  );
+                } else if (state.games.isNotEmpty) {
+                  return SliverListCustom(
                     games: state.games,
                     isInProgress: state.status.isInProgress,
                     hasMorePages: state.hasMorePages,
                     onLoad: () => context.read<RemoteGamesBloc>().add(GetNextPage()),
-                  ),
-                ],
-              ),
-            );
-          } else if (state.status.isSuccess && state.games.isEmpty) {
-            return const Center(
-              child: Text(
-                'No more games!',
-                style: TextStyle(
-                  color: AppTheme.white,
-                  fontSize: 20.0,
-                ),
-              ),
-            );
-          } else if (state.status.isFailure) {
-            return Refresh(
-              message: state.errorMessage!,
-              onPressed: () => context.read<RemoteGamesBloc>().add(const GetFirstPage()),
-            );
-          } else {
-            return const SizedBox.shrink();
-          }
-        },
+                  );
+                } else if (state.status.isSuccess && state.games.isEmpty) {
+                  return const SliverFillRemaining(
+                    child: Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: Center(
+                        child: Text(
+                          'Unfortunately, nothing was found',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: AppTheme.white,
+                            fontSize: 20.0,
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                } else if (state.status.isFailure) {
+                  return Refresh(
+                    message: state.errorMessage!,
+                    onPressed: () => context.read<RemoteGamesBloc>().add(const GetFirstPage()),
+                  );
+                } else {
+                  return const SizedBox.shrink();
+                }
+              },
+            ),
+          ],
+        ),
       );
 }
