@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rawg_clean/config/theme/app_themes.dart';
 import 'package:rawg_clean/core/widgets/background_image.dart';
 import 'package:rawg_clean/core/widgets/keyboard_dismisser.dart';
 import 'package:rawg_clean/core/widgets/loader.dart';
@@ -82,33 +83,50 @@ class _GamesState extends StatelessWidget {
               CupertinoSliverRefreshControl(
                 onRefresh: () async => context.read<RemoteGamesBloc>().add(const GetFirstPage()),
               ),
-            BlocBuilder<RemoteGamesBloc, RemoteGamesState>(
-              builder: (context, state) {
-                if (state.status.isInProgress && state.games.isEmpty) {
-                  return const SliverFillRemaining(
-                    hasScrollBody: false,
-                    child: Loader(),
+            BlocListener<LocalGamesBloc, LocalGamesState>(
+              listener: (context, state) {
+                if (state.status.isFailure) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      backgroundColor: AppTheme.red,
+                      content: Text(
+                        state.errorMessage!,
+                        style: const TextStyle(
+                          color: AppTheme.white,
+                        ),
+                      ),
+                    ),
                   );
-                } else if (state.games.isNotEmpty) {
-                  return CustomSliverList(
-                    games: state.games,
-                    isInProgress: state.status.isInProgress,
-                    hasMorePages: state.hasMorePages,
-                    onLoad: () => context.read<RemoteGamesBloc>().add(GetNextPage()),
-                  );
-                } else if (state.status.isSuccess && state.games.isEmpty) {
-                  return const TextSliverFillRemaining(
-                    text: 'Unfortunately, nothing was found',
-                  );
-                } else if (state.status.isFailure) {
-                  return Refresh(
-                    message: state.errorMessage!,
-                    onPressed: () => context.read<RemoteGamesBloc>().add(const GetFirstPage()),
-                  );
-                } else {
-                  return const SizedBox.shrink();
                 }
               },
+              child: BlocBuilder<RemoteGamesBloc, RemoteGamesState>(
+                builder: (context, state) {
+                  if (state.status.isInProgress && state.games.isEmpty) {
+                    return const SliverFillRemaining(
+                      hasScrollBody: false,
+                      child: Loader(),
+                    );
+                  } else if (state.games.isNotEmpty) {
+                    return CustomSliverList(
+                      games: state.games,
+                      isInProgress: state.status.isInProgress,
+                      hasMorePages: state.hasMorePages,
+                      onLoad: () => context.read<RemoteGamesBloc>().add(GetNextPage()),
+                    );
+                  } else if (state.status.isSuccess && state.games.isEmpty) {
+                    return const TextSliverFillRemaining(
+                      text: 'Unfortunately, nothing was found',
+                    );
+                  } else if (state.status.isFailure) {
+                    return Refresh(
+                      message: state.errorMessage!,
+                      onPressed: () => context.read<RemoteGamesBloc>().add(const GetFirstPage()),
+                    );
+                  } else {
+                    return const SizedBox.shrink();
+                  }
+                },
+              ),
             ),
           ],
         ),

@@ -44,6 +44,7 @@ class LocalGamesBloc extends Bloc<LocalGamesEvent, LocalGamesState> {
   }
 
   Future<void> _onRemoveGame(RemoveGame removeGame, Emitter<LocalGamesState> emit) async {
+    emit(state.copyWith(status: SubmissionStatus.inProgress));
     final failureOrResponseOnRemove = await _removeLocalGamesUseCase(game: removeGame.game);
     await failureOrResponseOnRemove.fold(
       (failure) async => emit(
@@ -73,6 +74,7 @@ class LocalGamesBloc extends Bloc<LocalGamesEvent, LocalGamesState> {
   }
 
   Future<void> _onSaveGame(SaveGame saveGame, Emitter<LocalGamesState> emit) async {
+    emit(state.copyWith(status: SubmissionStatus.inProgress));
     final failureOrResponseOnSave = await _saveLocalGamesUseCase(game: saveGame.game);
     await failureOrResponseOnSave.fold(
       (failure) async => emit(

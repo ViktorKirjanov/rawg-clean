@@ -21,17 +21,8 @@ class LikeButton extends StatelessWidget {
   Widget build(BuildContext context) => Positioned(
         top: 8.0,
         right: 8.0,
-        child: BlocConsumer<LocalGamesBloc, LocalGamesState>(
+        child: BlocBuilder<LocalGamesBloc, LocalGamesState>(
           bloc: sl(),
-          listener: (context, state) {
-            if (state.status.isFailure) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.errorMessage!),
-                ),
-              );
-            }
-          },
           builder: (_, state) {
             final isSelected = state.games.firstWhereOrNull((element) => element.id == game.id) != null;
             return GestureDetector(
