@@ -1,30 +1,34 @@
 part of 'local_games_bloc.dart';
 
-sealed class LocalGamesState extends Equatable {
-  const LocalGamesState();
-
-  @override
-  List<Object> get props => [];
-}
-
-class LoadingLocalGamesState extends LocalGamesState {
-  const LoadingLocalGamesState();
-}
-
-class SuccessLocalGamesState extends LocalGamesState {
-  const SuccessLocalGamesState({required this.games});
+class LocalGamesState extends Equatable {
+  const LocalGamesState({
+    this.games = const [],
+    this.status = SubmissionStatus.inProgress,
+    this.errorMessage,
+  });
 
   final List<GameEntity> games;
+  final SubmissionStatus status;
+  final String? errorMessage;
 
   @override
-  List<Object> get props => [games];
-}
+  List<Object?> get props => [
+        games,
+        status,
+        errorMessage,
+      ];
 
-class FailedLocalGamesState extends LocalGamesState {
-  const FailedLocalGamesState(this.errorMessage);
-
-  final String errorMessage;
+  LocalGamesState copyWith({
+    List<GameEntity>? games,
+    SubmissionStatus? status,
+    String? errorMessage,
+  }) =>
+      LocalGamesState(
+        games: games ?? this.games,
+        status: status ?? this.status,
+        errorMessage: errorMessage ?? this.errorMessage,
+      );
 
   @override
-  List<Object> get props => [errorMessage];
+  String toString() => 'LocalGamesState(games: ${games.length}, status: $status, errorMessage: $errorMessage)';
 }

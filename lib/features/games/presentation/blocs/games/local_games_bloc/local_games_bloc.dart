@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rawg_clean/core/enums/submission_status_enum.dart';
 import 'package:rawg_clean/features/games/domain/entities/game_entity.dart';
 import 'package:rawg_clean/features/games/domain/usecases/get_local_games_usecase.dart';
 import 'package:rawg_clean/features/games/domain/usecases/remove_local_games_usecase.dart';
@@ -13,7 +14,7 @@ class LocalGamesBloc extends Bloc<LocalGamesEvent, LocalGamesState> {
     this._getLocalGamesUseCase,
     this._removeLocalGamesUseCase,
     this._saveLocalGamesUseCase,
-  ) : super(const LoadingLocalGamesState()) {
+  ) : super(const LocalGamesState()) {
     on<GetSavedGames>(_onGetGames);
     on<RemoveGame>(_onRemoveGame);
     on<SaveGame>(_onSaveGame);
@@ -24,23 +25,48 @@ class LocalGamesBloc extends Bloc<LocalGamesEvent, LocalGamesState> {
   final SaveLocalGamesUseCase _saveLocalGamesUseCase;
 
   Future<void> _onGetGames(GetSavedGames event, Emitter<LocalGamesState> emit) async {
-    emit(const LoadingLocalGamesState());
+    emit(state.copyWith(status: SubmissionStatus.inProgress));
     final failureOrResponse = await _getLocalGamesUseCase();
     failureOrResponse.fold(
-      (failure) => emit(FailedLocalGamesState(failure.message)),
-      (games) => emit(SuccessLocalGamesState(games: games)),
+      (failure) => emit(
+        state.copyWith(
+          status: SubmissionStatus.failure,
+          errorMessage: failure.message,
+        ),
+      ),
+      (games) => emit(
+        state.copyWith(
+          status: SubmissionStatus.success,
+          games: games,
+        ),
+      ),
     );
   }
 
   Future<void> _onRemoveGame(RemoveGame removeGame, Emitter<LocalGamesState> emit) async {
     final failureOrResponseOnRemove = await _removeLocalGamesUseCase(game: removeGame.game);
     await failureOrResponseOnRemove.fold(
-      (failure) async => emit(FailedLocalGamesState(failure.message)),
+      (failure) async => emit(
+        state.copyWith(
+          status: SubmissionStatus.failure,
+          errorMessage: failure.message,
+        ),
+      ),
       (_) async {
         final failureOrResponseGetGames = await _getLocalGamesUseCase();
         failureOrResponseGetGames.fold(
-          (failure) => emit(FailedLocalGamesState(failure.message)),
-          (games) => emit(SuccessLocalGamesState(games: games)),
+          (failure) => emit(
+            state.copyWith(
+              status: SubmissionStatus.failure,
+              errorMessage: failure.message,
+            ),
+          ),
+          (games) => emit(
+            state.copyWith(
+              status: SubmissionStatus.success,
+              games: games,
+            ),
+          ),
         );
       },
     );
@@ -49,12 +75,27 @@ class LocalGamesBloc extends Bloc<LocalGamesEvent, LocalGamesState> {
   Future<void> _onSaveGame(SaveGame saveGame, Emitter<LocalGamesState> emit) async {
     final failureOrResponseOnSave = await _saveLocalGamesUseCase(game: saveGame.game);
     await failureOrResponseOnSave.fold(
-      (failure) async => emit(FailedLocalGamesState(failure.message)),
+      (failure) async => emit(
+        state.copyWith(
+          status: SubmissionStatus.failure,
+          errorMessage: failure.message,
+        ),
+      ),
       (_) async {
         final failureOrResponseGetGames = await _getLocalGamesUseCase();
         failureOrResponseGetGames.fold(
-          (failure) async => emit(FailedLocalGamesState(failure.message)),
-          (games) => emit(SuccessLocalGamesState(games: games)),
+          (failure) async => emit(
+            state.copyWith(
+              status: SubmissionStatus.failure,
+              errorMessage: failure.message,
+            ),
+          ),
+          (games) => emit(
+            state.copyWith(
+              status: SubmissionStatus.success,
+              games: games,
+            ),
+          ),
         );
       },
     );

@@ -1,8 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rawg_clean/config/theme/app_themes.dart';
-import 'package:rawg_clean/features/games/presentation/blocs/games/local_games_bloc/local_games_bloc.dart';
 import 'package:rawg_clean/features/games/presentation/pages/local_games_page.dart';
 
 class BookmarkButton extends StatelessWidget {
@@ -31,11 +29,7 @@ class BookmarkButton extends StatelessWidget {
         ),
         onTap: () {
           FocusManager.instance.primaryFocus?.unfocus();
-          Navigator.of(context).push(
-            LocalGamesPage.route(
-              games: (context.read<LocalGamesBloc>().state as SuccessLocalGamesState).games,
-            ),
-          );
+          Navigator.of(context).push(LocalGamesPage.route());
         },
       );
 }

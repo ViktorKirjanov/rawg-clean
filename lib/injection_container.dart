@@ -8,7 +8,7 @@ import 'package:rawg_clean/features/games/domain/usecases/get_games_usecase.dart
 import 'package:rawg_clean/features/games/domain/usecases/get_local_games_usecase.dart';
 import 'package:rawg_clean/features/games/domain/usecases/remove_local_games_usecase.dart';
 import 'package:rawg_clean/features/games/domain/usecases/save_local_games_usecase.dart';
-import 'package:rawg_clean/features/games/presentation/blocs/cubit/combine_games_cubit.dart';
+import 'package:rawg_clean/features/games/presentation/blocs/combine_cubit/combine_games_cubit.dart';
 import 'package:rawg_clean/features/games/presentation/blocs/games/local_games_bloc/local_games_bloc.dart';
 import 'package:rawg_clean/features/games/presentation/blocs/games/remote_bloc/remote_games_bloc.dart';
 

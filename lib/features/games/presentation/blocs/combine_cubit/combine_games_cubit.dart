@@ -32,9 +32,9 @@ class CombineGamesCubit extends Cubit<CombineGamesState> {
             {
           if (state.status != SubmissionStatus.success)
             {
-              if (remoteGamesState.status.isSuccess && localGamesState is SuccessLocalGamesState)
+              if (remoteGamesState.status.isSuccess && localGamesState.status.isSuccess)
                 emit(state.copyWith(status: SubmissionStatus.success))
-              else if (remoteGamesState.status.isInProgress || localGamesState is LoadingLocalGamesState)
+              else if (remoteGamesState.status.isInProgress || localGamesState.status.isInProgress)
                 emit(state.copyWith(status: SubmissionStatus.inProgress))
               else if (remoteGamesState.status.isFailure && state.status != SubmissionStatus.failure)
                 emit(
@@ -43,7 +43,7 @@ class CombineGamesCubit extends Cubit<CombineGamesState> {
                     errorMessage: remoteGamesState.errorMessage,
                   ),
                 )
-              else if (localGamesState is FailedLocalGamesState && state.status != SubmissionStatus.failure)
+              else if (localGamesState.status.isFailure && state.status != SubmissionStatus.failure)
                 emit(
                   state.copyWith(
                     status: SubmissionStatus.failure,

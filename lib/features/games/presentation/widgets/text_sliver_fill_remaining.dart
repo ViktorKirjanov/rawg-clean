@@ -10,14 +10,14 @@ class TextSliverFillRemaining extends StatelessWidget {
   final String text;
 
   @override
-  Widget build(BuildContext context) => const SliverFillRemaining(
+  Widget build(BuildContext context) => SliverFillRemaining(
         child: Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Center(
             child: Text(
-              'Unfortunately, nothing was found',
+              text,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 color: AppTheme.white,
                 fontSize: 20.0,
               ),
