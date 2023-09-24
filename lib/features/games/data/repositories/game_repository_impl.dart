@@ -42,7 +42,7 @@ class GameRepositoryImpl extends GameRepository {
   @override
   Future<Either<Failure, List<GameEntity>>> getSavedGames() async {
     try {
-      final localGames = await _appDatabase.gameeDao.getGames();
+      final localGames = await _appDatabase.gameDao.findAll();
       return Right(localGames);
     } on DatabaseException catch (error, stackTrace) {
       log('🐞Error: $error', stackTrace: stackTrace);
@@ -53,7 +53,7 @@ class GameRepositoryImpl extends GameRepository {
   @override
   Future<Either<Failure, bool>> removeGame(GameEntity game) async {
     try {
-      await _appDatabase.gameeDao.deleteGame(game);
+      await _appDatabase.gameDao.deleteGame(game);
       return const Right(true);
     } on DatabaseException catch (error, stackTrace) {
       log('🐞Error: $error', stackTrace: stackTrace);
@@ -64,7 +64,7 @@ class GameRepositoryImpl extends GameRepository {
   @override
   Future<Either<Failure, bool>> saveGame(GameEntity game) async {
     try {
-      await _appDatabase.gameeDao.insertGame(game);
+      await _appDatabase.gameDao.insertGame(game);
       return const Right(true);
     } on DatabaseException catch (error, stackTrace) {
       log('🐞Error: $error', stackTrace: stackTrace);

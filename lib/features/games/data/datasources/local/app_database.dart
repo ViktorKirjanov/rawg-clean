@@ -21,5 +21,5 @@ part 'app_database.g.dart';
   ],
 )
 abstract class AppDatabase extends FloorDatabase {
-  GameeDao get gameeDao;
+  GameeDao get gameDao;
 }

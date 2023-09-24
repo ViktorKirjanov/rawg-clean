@@ -61,7 +61,7 @@ class _$AppDatabase extends AppDatabase {
     changeListener = listener ?? StreamController<String>.broadcast();
   }
 
-  GameeDao? _gameeDaoInstance;
+  GameeDao? _gameDaoInstance;
 
   Future<sqflite.Database> open(
     String path,
@@ -94,8 +94,8 @@ class _$AppDatabase extends AppDatabase {
   }
 
   @override
-  GameeDao get gameeDao {
-    return _gameeDaoInstance ??= _$GameeDao(database, changeListener);
+  GameeDao get gameDao {
+    return _gameDaoInstance ??= _$GameeDao(database, changeListener);
   }
 }
 
@@ -149,7 +149,7 @@ class _$GameeDao extends GameeDao {
   final DeletionAdapter<GameEntity> _gameEntityDeletionAdapter;
 
   @override
-  Future<List<GameEntity>> getGames() async {
+  Future<List<GameEntity>> findAll() async {
     return _queryAdapter.queryList('SELECT * FROM game',
         mapper: (Map<String, Object?> row) => GameEntity(
             id: row['id'] as int?,

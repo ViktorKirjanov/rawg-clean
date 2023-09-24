@@ -27,18 +27,18 @@ void main() {
 
   group('ParentPlatformModel', () {
     test(
-      'shoule be a sublass of platform entity',
+      'should be a sublass of platform entity',
       () async => expect(platformsModel, isA<ParentPlatformsEntity>()),
     );
 
-    test('shoule supports value comparison', () {
+    test('should supports value comparison', () {
       expect(
         platformsModel,
         platformsModel2,
       );
     });
 
-    test('shouled parse from json', () async {
+    test('should parse from json', () async {
       // arrange
       final Map<String, dynamic> jsonMap =
           json.decode(readJson('/helpers/json/parent_platforms.json')) as Map<String, dynamic>;

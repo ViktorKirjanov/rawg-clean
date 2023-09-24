@@ -10,5 +10,5 @@ abstract class GameeDao {
   Future<void> deleteGame(GameEntity game);
 
   @Query('SELECT * FROM game')
-  Future<List<GameEntity>> getGames();
+  Future<List<GameEntity>> findAll();
 }

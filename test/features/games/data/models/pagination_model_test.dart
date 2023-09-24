@@ -27,14 +27,14 @@ void main() {
       () async => expect(paginationModel, isA<PaginationEntity<dynamic>>()),
     );
 
-    test('shoule supports value comparison', () {
+    test('should supports value comparison', () {
       expect(
         paginationModel,
         paginationModel2,
       );
     });
 
-    test('shouled parse from json', () async {
+    test('should parse from json', () async {
       // arrange
       final Map<String, dynamic> jsonMap =
           json.decode(readJson('/helpers/json/pagination.json')) as Map<String, dynamic>;

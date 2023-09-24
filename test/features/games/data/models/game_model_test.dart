@@ -118,18 +118,18 @@ void main() {
 
   group('PlatformModel', () {
     test(
-      'shoule be a sublass of platform entity',
+      'should be a sublass of platform entity',
       () async => expect(gameModel, isA<GameModel>()),
     );
 
-    test('shoule supports value comparison', () {
+    test('should supports value comparison', () {
       expect(
         gameModel,
         gameModel2,
       );
     });
 
-    test('shouled parse from json', () async {
+    test('should parse from json', () async {
       // arrange
       final Map<String, dynamic> jsonMap = json.decode(readJson('/helpers/json/game.json')) as Map<String, dynamic>;
 
