@@ -2,10 +2,12 @@ import 'package:get_it/get_it.dart';
 import 'package:rawg_clean/core/client/dio_client.dart';
 import 'package:rawg_clean/features/games/data/datasources/local/app_database.dart';
 import 'package:rawg_clean/features/games/data/datasources/remote/games_api_service.dart';
-import 'package:rawg_clean/features/games/data/repositories/game_repository_impl.dart';
-import 'package:rawg_clean/features/games/domain/repositories/game_repository.dart';
-import 'package:rawg_clean/features/games/domain/usecases/get_games_usecase.dart';
+import 'package:rawg_clean/features/games/data/repositories/local_game_repository_impl.dart';
+import 'package:rawg_clean/features/games/data/repositories/remote_game_repository_impl.dart';
+import 'package:rawg_clean/features/games/domain/repositories/local_game_repository.dart';
+import 'package:rawg_clean/features/games/domain/repositories/remote_game_repository.dart';
 import 'package:rawg_clean/features/games/domain/usecases/get_local_games_usecase.dart';
+import 'package:rawg_clean/features/games/domain/usecases/get_remote_games_usecase.dart';
 import 'package:rawg_clean/features/games/domain/usecases/remove_local_games_usecase.dart';
 import 'package:rawg_clean/features/games/domain/usecases/save_local_games_usecase.dart';
 import 'package:rawg_clean/features/games/presentation/blocs/combine_cubit/combine_games_cubit.dart';
@@ -26,10 +28,11 @@ Future<void> initDependencies() async {
     ..registerSingleton<GamesDataSource>(GamesDataSource(sl()))
 
     // Repository
-    ..registerSingleton<GameRepository>(GameRepositoryImpl(sl(), sl()))
+    ..registerSingleton<RemoteGameRepository>(RemoteGameRepositoryImpl(sl()))
+    ..registerSingleton<LocalGameRepository>(LocalGameRepositoryImpl(sl()))
 
     // UseCases
-    ..registerSingleton<GetGamesUseCase>(GetGamesUseCase(sl()))
+    ..registerSingleton<GetRemoteGamesUseCase>(GetRemoteGamesUseCase(sl()))
     ..registerSingleton<GetLocalGamesUseCase>(GetLocalGamesUseCase(sl()))
     ..registerSingleton<SaveLocalGamesUseCase>(SaveLocalGamesUseCase(sl()))
     ..registerSingleton<RemoveLocalGamesUseCase>(RemoveLocalGamesUseCase(sl()))

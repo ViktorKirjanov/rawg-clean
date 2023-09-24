@@ -4,13 +4,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rawg_clean/core/enums/submission_status_enum.dart';
 import 'package:rawg_clean/features/games/domain/entities/game_entity.dart';
-import 'package:rawg_clean/features/games/domain/usecases/get_games_usecase.dart';
+import 'package:rawg_clean/features/games/domain/usecases/get_remote_games_usecase.dart';
 
 part 'remote_games_event.dart';
 part 'remote_games_state.dart';
 
 class RemoteGamesBloc extends Bloc<RemoteGamesEvent, RemoteGamesState> {
-  RemoteGamesBloc(this._getGamesUseCase) : super(const RemoteGamesState()) {
+  RemoteGamesBloc(this._getRemoteGamesUseCase) : super(const RemoteGamesState()) {
     on<AddSearch>(
       _onAddSearch,
       transformer: restartable(),
@@ -32,7 +32,7 @@ class RemoteGamesBloc extends Bloc<RemoteGamesEvent, RemoteGamesState> {
     );
   }
 
-  final GetGamesUseCase _getGamesUseCase;
+  final GetRemoteGamesUseCase _getRemoteGamesUseCase;
 
   Future<void> _onAddSearch(
     AddSearch event,
@@ -73,7 +73,7 @@ class RemoteGamesBloc extends Bloc<RemoteGamesEvent, RemoteGamesState> {
       ),
     );
 
-    final failureOrResponse = await _getGamesUseCase(
+    final failureOrResponse = await _getRemoteGamesUseCase(
       event.page,
       state.search,
     );

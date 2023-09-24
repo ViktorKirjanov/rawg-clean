@@ -18,7 +18,7 @@ import 'package:rawg_clean/features/games/domain/entities/game_entity.dart'
     as _i9;
 import 'package:rawg_clean/features/games/domain/entities/pagination_entity.dart'
     as _i8;
-import 'package:rawg_clean/features/games/domain/repositories/game_repository.dart'
+import 'package:rawg_clean/features/games/domain/repositories/remote_game_repository.dart'
     as _i5;
 import 'package:retrofit/retrofit.dart' as _i3;
 
@@ -105,11 +105,12 @@ class _FakeResponse_6<T1> extends _i1.SmartFake implements _i4.Response<T1> {
         );
 }
 
-/// A class which mocks [GameRepository].
+/// A class which mocks [RemoteGameRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockGameRepository extends _i1.Mock implements _i5.GameRepository {
-  MockGameRepository() {
+class MockRemoteGameRepository extends _i1.Mock
+    implements _i5.RemoteGameRepository {
+  MockRemoteGameRepository() {
     _i1.throwOnMissingStub(this);
   }
 
@@ -142,55 +143,6 @@ class MockGameRepository extends _i1.Mock implements _i5.GameRepository {
         )),
       ) as _i6.Future<
           _i2.Either<_i7.Failure, _i8.PaginationEntity<_i9.GameEntity>>>);
-  @override
-  _i6.Future<_i2.Either<_i7.Failure, bool>> saveGame(_i9.GameEntity? game) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #saveGame,
-          [game],
-        ),
-        returnValue: _i6.Future<_i2.Either<_i7.Failure, bool>>.value(
-            _FakeEither_0<_i7.Failure, bool>(
-          this,
-          Invocation.method(
-            #saveGame,
-            [game],
-          ),
-        )),
-      ) as _i6.Future<_i2.Either<_i7.Failure, bool>>);
-  @override
-  _i6.Future<_i2.Either<_i7.Failure, bool>> removeGame(_i9.GameEntity? game) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #removeGame,
-          [game],
-        ),
-        returnValue: _i6.Future<_i2.Either<_i7.Failure, bool>>.value(
-            _FakeEither_0<_i7.Failure, bool>(
-          this,
-          Invocation.method(
-            #removeGame,
-            [game],
-          ),
-        )),
-      ) as _i6.Future<_i2.Either<_i7.Failure, bool>>);
-  @override
-  _i6.Future<_i2.Either<_i7.Failure, List<_i9.GameEntity>>> getSavedGames() =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #getSavedGames,
-          [],
-        ),
-        returnValue:
-            _i6.Future<_i2.Either<_i7.Failure, List<_i9.GameEntity>>>.value(
-                _FakeEither_0<_i7.Failure, List<_i9.GameEntity>>(
-          this,
-          Invocation.method(
-            #getSavedGames,
-            [],
-          ),
-        )),
-      ) as _i6.Future<_i2.Either<_i7.Failure, List<_i9.GameEntity>>>);
 }
 
 /// A class which mocks [GamesDataSource].

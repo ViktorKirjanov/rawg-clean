@@ -7,17 +7,17 @@ import 'package:rawg_clean/features/games/data/models/platform_model.dart';
 import 'package:rawg_clean/features/games/data/models/platforms_model.dart';
 import 'package:rawg_clean/features/games/domain/entities/game_entity.dart';
 import 'package:rawg_clean/features/games/domain/entities/pagination_entity.dart';
-import 'package:rawg_clean/features/games/domain/usecases/get_games_usecase.dart';
+import 'package:rawg_clean/features/games/domain/usecases/get_remote_games_usecase.dart';
 
 import '../../../../helpers/test_helper.mocks.dart';
 
 void main() {
-  late MockGameRepository mockGameRepository;
-  late GetGamesUseCase getGamesUseCase;
+  late MockRemoteGameRepository mockGameRepository;
+  late GetRemoteGamesUseCase getRemoteGamesUseCase;
 
   setUp(() {
-    mockGameRepository = MockGameRepository();
-    getGamesUseCase = GetGamesUseCase(mockGameRepository);
+    mockGameRepository = MockRemoteGameRepository();
+    getRemoteGamesUseCase = GetRemoteGamesUseCase(mockGameRepository);
   });
 
   test('should get 1 game', () async {
@@ -50,39 +50,33 @@ void main() {
 
     // arange
     when(mockGameRepository.getGames(1, null)).thenAnswer((_) async => const Right(pagination));
+
     // act
-    final result = await getGamesUseCase(1, null);
+    final result = await getRemoteGamesUseCase(1, null);
+
     // assert
     expect(result, const Right<Failure, PaginationEntity<GameEntity>>(pagination));
   });
 
-  // test(
-  //   'should return server failure when the call to remote data source is unsuccessful',
-  //   () async {
-  //     // arrange
+  test(
+    'should return server failure when the call to remote data source is unsuccessful',
+    () async {
+      // arrange
+      when(mockGameRepository.getGames(1, null))
+          .thenAnswer((_) async => const Left(ServerFailure('Oops, something went wrong')));
 
-  //     final error = DioException(
-  //       response: Response(
-  //         data: {'status_code': 403, 'status_message': 'Can not create an account', 'success': false},
-  //         statusCode: 403,
-  //         requestOptions: RequestOptions(path: ''),
-  //       ),
-  //       type: DioExceptionType.badResponse,
-  //       requestOptions: RequestOptions(path: ''),
-  //     );
+      // act
+      final result = await getRemoteGamesUseCase(1, null);
 
-  //     // final networkException = NetworkException.getDioException(error);
-
-  //     when(mockGameRepository.getGames(1)).thenThrow(error);
-  //     // act
-  //     final result = await getGamesUseCase(1);
-  //     // assert
-  //     expect(
-  //       result,
-  //       equals(
-  //         Left<ServerFailure, PaginationEntity<GameEntity>>(ServerFailure('Oops, something went wrong')),
-  //       ),
-  //     );
-  //   },
-  // );
+      // assert
+      expect(
+        result,
+        equals(
+          const Left<ServerFailure, PaginationEntity<GameEntity>>(
+            ServerFailure('Oops, something went wrong'),
+          ),
+        ),
+      );
+    },
+  );
 }
