@@ -29,6 +29,14 @@ void main() {
     ),
   );
 
+  final HttpResponse<PaginationModel<GameModel>> failureFetchPostResponse = HttpResponse<PaginationModel<GameModel>>(
+    responsePayload,
+    dio.Response<dynamic>(
+      statusCode: HttpStatus.notFound,
+      requestOptions: dio.RequestOptions(path: ''),
+    ),
+  );
+
   group('GamesDataSource', () {
     late GamesDataSource service;
     setUp(() {
@@ -38,15 +46,16 @@ void main() {
     group('should return gamse when a call to data source is successful', () {
       test(
         'without parameters',
-        // arrange
-
-        // act
         () async {
+          // arrange
           when(service.getGames()).thenAnswer(
             (realInvocation) async => Future.value(successFetchPostResponse),
           );
+          // act
+          final response = await service.getGames();
+
           // assert
-          expect(await service.getGames(), successFetchPostResponse);
+          expect(response, successFetchPostResponse);
         },
       );
 
@@ -54,8 +63,6 @@ void main() {
         'with parameters',
         () async {
           // arrange
-
-          // act
           when(
             service.getGames(
               apiKey: 'xxx',
@@ -67,16 +74,16 @@ void main() {
             (realInvocation) async => Future.value(successFetchPostResponse),
           );
 
-          // assert
-          expect(
-            await service.getGames(
-              apiKey: 'xxx',
-              pageSize: 10,
-              page: 1,
-              search: 'gear of war',
-            ),
-            successFetchPostResponse,
+          // act
+          final response = await service.getGames(
+            apiKey: 'xxx',
+            pageSize: 10,
+            page: 1,
+            search: 'gear of war',
           );
+
+          // assert
+          expect(response, successFetchPostResponse);
         },
       );
     });
@@ -84,18 +91,16 @@ void main() {
     test(
       'should return server failure when a call to data source is unsuccessful',
       () async {
-        // arrange
-
-        // act
-        when(service.getGames()).thenThrow(
-          (_) async => dio.Response<dynamic>(
-            statusCode: HttpStatus.notFound,
-            requestOptions: dio.RequestOptions(path: ''),
-          ),
+        when(service.getGames()).thenAnswer(
+          (realInvocation) async => Future.value(failureFetchPostResponse),
         );
 
+        // act
+        final response = await service.getGames();
+
         // assert
-        throwsA(const TypeMatcher<dio.DioException>());
+        expect(response, failureFetchPostResponse);
+        expect(response.response.statusCode, 404);
       },
     );
   });

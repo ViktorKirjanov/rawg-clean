@@ -44,6 +44,7 @@ void main() {
       // arrange
 
       // act
+      await gameDao.insertGame(game);
       final games = await gameDao.findAll();
 
       // assert
@@ -57,7 +58,6 @@ void main() {
 
       // act
       await gameDao.deleteGame(game);
-
       final games = await gameDao.findAll();
 
       // assert
