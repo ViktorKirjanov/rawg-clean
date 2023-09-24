@@ -6,8 +6,8 @@ import 'package:dio/dio.dart';
 import 'package:rawg_clean/core/constants/constants.dart';
 import 'package:rawg_clean/core/errors/failure.dart';
 import 'package:rawg_clean/features/games/data/datasources/remote/games_api_service.dart';
-import 'package:rawg_clean/features/games/data/models/pagination_model.dart';
 import 'package:rawg_clean/features/games/domain/entities/game_entity.dart';
+import 'package:rawg_clean/features/games/domain/entities/pagination_entity.dart';
 import 'package:rawg_clean/features/games/domain/repositories/remote_game_repository.dart';
 
 class RemoteGameRepositoryImpl extends RemoteGameRepository {
@@ -18,7 +18,7 @@ class RemoteGameRepositoryImpl extends RemoteGameRepository {
   final GamesDataSource _gamesDataSource;
 
   @override
-  Future<Either<Failure, PaginationModel<GameEntity>>> getGames(int page, String? search) async {
+  Future<Either<Failure, PaginationEntity<GameEntity>>> getGames(int page, String? search) async {
     try {
       final httpResponse = await _gamesDataSource.getGames(
         apiKey: apiKey,

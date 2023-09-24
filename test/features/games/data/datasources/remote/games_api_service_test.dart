@@ -51,6 +51,7 @@ void main() {
           when(service.getGames()).thenAnswer(
             (realInvocation) async => Future.value(successFetchPostResponse),
           );
+
           // act
           final response = await service.getGames();
 
@@ -91,6 +92,7 @@ void main() {
     test(
       'should return server failure when a call to data source is unsuccessful',
       () async {
+        // arrange
         when(service.getGames()).thenAnswer(
           (realInvocation) async => Future.value(failureFetchPostResponse),
         );

@@ -8,7 +8,7 @@ import 'package:rawg_clean/features/games/domain/entities/game_entity.dart';
 
 void main() {
   late AppDatabase database;
-  late GameeDao gameDao;
+  late GameDao gameDao;
 
   const game = GameEntity(
     id: 3498,

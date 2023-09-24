@@ -21,7 +21,7 @@ class LocalGameRepositoryImpl extends LocalGameRepository {
       return Right(localGames);
     } on DatabaseException catch (error, stackTrace) {
       log('🐞Error: $error', stackTrace: stackTrace);
-      return Left(DatabaseFailure(error.toString()));
+      return const Left(DatabaseFailure('Oops, something went wrong'));
     }
   }
 
@@ -32,7 +32,7 @@ class LocalGameRepositoryImpl extends LocalGameRepository {
       return const Right(true);
     } on DatabaseException catch (error, stackTrace) {
       log('🐞Error: $error', stackTrace: stackTrace);
-      return Left(DatabaseFailure(error.toString()));
+      return const Left(DatabaseFailure('Oops, something went wrong'));
     }
   }
 
@@ -43,7 +43,7 @@ class LocalGameRepositoryImpl extends LocalGameRepository {
       return const Right(true);
     } on DatabaseException catch (error, stackTrace) {
       log('🐞Error: $error', stackTrace: stackTrace);
-      return Left(DatabaseFailure(error.toString()));
+      return const Left(DatabaseFailure('Oops, something went wrong'));
     }
   }
 }

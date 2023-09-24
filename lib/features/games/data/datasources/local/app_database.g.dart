@@ -61,7 +61,7 @@ class _$AppDatabase extends AppDatabase {
     changeListener = listener ?? StreamController<String>.broadcast();
   }
 
-  GameeDao? _gameDaoInstance;
+  GameDao? _gameDaoInstance;
 
   Future<sqflite.Database> open(
     String path,
@@ -94,13 +94,13 @@ class _$AppDatabase extends AppDatabase {
   }
 
   @override
-  GameeDao get gameDao {
-    return _gameDaoInstance ??= _$GameeDao(database, changeListener);
+  GameDao get gameDao {
+    return _gameDaoInstance ??= _$GameDao(database, changeListener);
   }
 }
 
-class _$GameeDao extends GameeDao {
-  _$GameeDao(
+class _$GameDao extends GameDao {
+  _$GameDao(
     this.database,
     this.changeListener,
   )   : _queryAdapter = QueryAdapter(database),
