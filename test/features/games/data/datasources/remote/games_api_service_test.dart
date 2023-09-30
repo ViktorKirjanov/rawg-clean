@@ -10,19 +10,13 @@ import 'package:rawg_clean/features/games/data/models/pagination_model.dart';
 import 'package:retrofit/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
+import '../../../../../helpers/constants/models.dart';
 import '../../../../../helpers/test_helper.mocks.dart';
 
 @GenerateMocks([GamesDataSource])
 void main() {
-  const responsePayload = PaginationModel<GameModel>(
-    count: 853138,
-    next: 'https://api.rawg.io/api/games?key=7e475ba564e14a53a1b42d6f5cb6be06&page=2&page_size=10',
-    previous: null,
-    results: [],
-  );
-
   final HttpResponse<PaginationModel<GameModel>> successFetchPostResponse = HttpResponse<PaginationModel<GameModel>>(
-    responsePayload,
+    paginationModel,
     dio.Response<dynamic>(
       statusCode: HttpStatus.ok,
       requestOptions: dio.RequestOptions(path: ''),
@@ -30,7 +24,7 @@ void main() {
   );
 
   final HttpResponse<PaginationModel<GameModel>> failureFetchPostResponse = HttpResponse<PaginationModel<GameModel>>(
-    responsePayload,
+    paginationModelCopy,
     dio.Response<dynamic>(
       statusCode: HttpStatus.notFound,
       requestOptions: dio.RequestOptions(path: ''),

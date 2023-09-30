@@ -1,33 +1,14 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:rawg_clean/core/enums/platform_enum.dart';
-import 'package:rawg_clean/features/games/data/models/platform_model.dart';
 import 'package:rawg_clean/features/games/data/models/platforms_model.dart';
 import 'package:rawg_clean/features/games/domain/entities/platforms_entity.dart';
 
+import '../../../../helpers/constants/models.dart';
 import '../../../../helpers/json_reader.dart';
 
 void main() {
-  const platformsModel = PlatformsModel(
-    platform: PlatformModel(
-      id: 187,
-      name: 'PlayStation 5',
-      slug: Platform.playstation5,
-    ),
-    releasedAt: '2013-09-17',
-  );
-
-  const platformsModel2 = PlatformsModel(
-    platform: PlatformModel(
-      id: 187,
-      name: 'PlayStation 5',
-      slug: Platform.playstation5,
-    ),
-    releasedAt: '2013-09-17',
-  );
-
-  group('PlatformModel', () {
+  group('PlatformsModel', () {
     test(
       'should be a sublass of platform entity',
       () async => expect(platformsModel, isA<PlatformsEntity>()),
@@ -35,8 +16,8 @@ void main() {
 
     test('should supports value comparison', () {
       expect(
-        platformsModel,
-        platformsModel2,
+        parentPlatformsModel,
+        parentPlatformsModelCopy,
       );
     });
 

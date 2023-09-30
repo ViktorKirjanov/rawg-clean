@@ -10,18 +10,20 @@ import 'package:dio/dio.dart' as _i7;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:rawg_clean/core/errors/failure.dart' as _i9;
 import 'package:rawg_clean/features/games/data/datasources/local/app_database.dart'
-    as _i15;
+    as _i16;
 import 'package:rawg_clean/features/games/data/datasources/local/dao/game_dao.dart'
     as _i4;
 import 'package:rawg_clean/features/games/data/datasources/remote/games_api_service.dart'
-    as _i12;
-import 'package:rawg_clean/features/games/data/models/game_model.dart' as _i14;
-import 'package:rawg_clean/features/games/data/models/pagination_model.dart'
     as _i13;
+import 'package:rawg_clean/features/games/data/models/game_model.dart' as _i15;
+import 'package:rawg_clean/features/games/data/models/pagination_model.dart'
+    as _i14;
 import 'package:rawg_clean/features/games/domain/entities/game_entity.dart'
     as _i11;
 import 'package:rawg_clean/features/games/domain/entities/pagination_entity.dart'
     as _i10;
+import 'package:rawg_clean/features/games/domain/repositories/local_game_repository.dart'
+    as _i12;
 import 'package:rawg_clean/features/games/domain/repositories/remote_game_repository.dart'
     as _i8;
 import 'package:retrofit/retrofit.dart' as _i3;
@@ -182,16 +184,76 @@ class MockRemoteGameRepository extends _i1.Mock
           _i2.Either<_i9.Failure, _i10.PaginationEntity<_i11.GameEntity>>>);
 }
 
+/// A class which mocks [LocalGameRepository].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockLocalGameRepository extends _i1.Mock
+    implements _i12.LocalGameRepository {
+  MockLocalGameRepository() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i5.Future<_i2.Either<_i9.Failure, bool>> saveGame(_i11.GameEntity? game) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #saveGame,
+          [game],
+        ),
+        returnValue: _i5.Future<_i2.Either<_i9.Failure, bool>>.value(
+            _FakeEither_0<_i9.Failure, bool>(
+          this,
+          Invocation.method(
+            #saveGame,
+            [game],
+          ),
+        )),
+      ) as _i5.Future<_i2.Either<_i9.Failure, bool>>);
+  @override
+  _i5.Future<_i2.Either<_i9.Failure, bool>> removeGame(_i11.GameEntity? game) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #removeGame,
+          [game],
+        ),
+        returnValue: _i5.Future<_i2.Either<_i9.Failure, bool>>.value(
+            _FakeEither_0<_i9.Failure, bool>(
+          this,
+          Invocation.method(
+            #removeGame,
+            [game],
+          ),
+        )),
+      ) as _i5.Future<_i2.Either<_i9.Failure, bool>>);
+  @override
+  _i5.Future<_i2.Either<_i9.Failure, List<_i11.GameEntity>>> getSavedGames() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getSavedGames,
+          [],
+        ),
+        returnValue:
+            _i5.Future<_i2.Either<_i9.Failure, List<_i11.GameEntity>>>.value(
+                _FakeEither_0<_i9.Failure, List<_i11.GameEntity>>(
+          this,
+          Invocation.method(
+            #getSavedGames,
+            [],
+          ),
+        )),
+      ) as _i5.Future<_i2.Either<_i9.Failure, List<_i11.GameEntity>>>);
+}
+
 /// A class which mocks [GamesDataSource].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockGamesDataSource extends _i1.Mock implements _i12.GamesDataSource {
+class MockGamesDataSource extends _i1.Mock implements _i13.GamesDataSource {
   MockGamesDataSource() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i5.Future<_i3.HttpResponse<_i13.PaginationModel<_i14.GameModel>>> getGames({
+  _i5.Future<_i3.HttpResponse<_i14.PaginationModel<_i15.GameModel>>> getGames({
     String? apiKey,
     int? pageSize,
     int? page,
@@ -209,8 +271,8 @@ class MockGamesDataSource extends _i1.Mock implements _i12.GamesDataSource {
           },
         ),
         returnValue: _i5.Future<
-                _i3.HttpResponse<_i13.PaginationModel<_i14.GameModel>>>.value(
-            _FakeHttpResponse_1<_i13.PaginationModel<_i14.GameModel>>(
+                _i3.HttpResponse<_i14.PaginationModel<_i15.GameModel>>>.value(
+            _FakeHttpResponse_1<_i14.PaginationModel<_i15.GameModel>>(
           this,
           Invocation.method(
             #getGames,
@@ -223,13 +285,13 @@ class MockGamesDataSource extends _i1.Mock implements _i12.GamesDataSource {
             },
           ),
         )),
-      ) as _i5.Future<_i3.HttpResponse<_i13.PaginationModel<_i14.GameModel>>>);
+      ) as _i5.Future<_i3.HttpResponse<_i14.PaginationModel<_i15.GameModel>>>);
 }
 
 /// A class which mocks [AppDatabase].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockAppDatabase extends _i1.Mock implements _i15.AppDatabase {
+class MockAppDatabase extends _i1.Mock implements _i16.AppDatabase {
   MockAppDatabase() {
     _i1.throwOnMissingStub(this);
   }
