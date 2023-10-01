@@ -115,13 +115,13 @@ const gameModelCopy = GameModel(
     ),
   ],
   parentPlatforms: [
-    // ParentPlatformsModel(
-    //   platform: ParentPlatformModel(
-    //     id: 1,
-    //     name: 'PC',
-    //     slug: ParentPlatform.pc,
-    //   ),
-    // ),
+    ParentPlatformsModel(
+      platform: ParentPlatformModel(
+        id: 1,
+        name: 'PC',
+        slug: ParentPlatform.pc,
+      ),
+    ),
     ParentPlatformsModel(
       platform: ParentPlatformModel(
         id: 2,
