@@ -8,6 +8,7 @@ import 'package:rawg_clean/core/widgets/background_image.dart';
 import 'package:rawg_clean/core/widgets/keyboard_dismisser.dart';
 import 'package:rawg_clean/core/widgets/loader.dart';
 import 'package:rawg_clean/core/widgets/refresh.dart';
+import 'package:rawg_clean/features/games/presentation/blocs/combine_cubit/combine_games_cubit.dart';
 import 'package:rawg_clean/features/games/presentation/blocs/games/local_games_bloc/favorite_games_bloc.dart';
 import 'package:rawg_clean/features/games/presentation/blocs/games/remote_games_bloc/remote_games_bloc.dart';
 import 'package:rawg_clean/features/games/presentation/widgets/android_refresh_indicator.dart';
@@ -21,10 +22,13 @@ import 'package:rawg_clean/injection_container.dart';
 class RemoteGamesPage extends StatelessWidget {
   const RemoteGamesPage({super.key});
 
+  static const String route = '/';
+
   @override
   Widget build(BuildContext context) => MultiBlocProvider(
         providers: [
-          BlocProvider<RemoteGamesBloc>(create: (context) => sl()..add(const GetFirstPage())),
+          BlocProvider<CombineGamesCubit>(create: (context) => sl()..getData()),
+          BlocProvider<RemoteGamesBloc>(create: (context) => sl()),
           BlocProvider<FavoriteGamesBloc>(create: (context) => sl()),
         ],
         child: const KeyboardDismisser(
@@ -42,7 +46,7 @@ class _GamePageView extends StatelessWidget {
   const _GamePageView();
 
   @override
-  Widget build(BuildContext context) => BlocBuilder<RemoteGamesBloc, RemoteGamesState>(
+  Widget build(BuildContext context) => BlocBuilder<CombineGamesCubit, CombineGamesState>(
         builder: (_, state) {
           if (state.status.isInProgress) {
             return const Loader();
@@ -51,7 +55,7 @@ class _GamePageView extends StatelessWidget {
           } else if (state.status.isFailure) {
             return Refresh(
               message: state.errorMessage!,
-              onPressed: () => sl<RemoteGamesBloc>().add(const GetFirstPage(reset: true)),
+              onPressed: () => sl<CombineGamesCubit>().getData(true),
             );
           }
           return const SizedBox.shrink();

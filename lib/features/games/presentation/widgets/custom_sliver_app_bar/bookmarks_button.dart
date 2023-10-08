@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rawg_clean/config/theme/app_themes.dart';
-import 'package:rawg_clean/features/games/presentation/pages/local_games_page.dart';
 
 class BookmarkButton extends StatelessWidget {
   const BookmarkButton({super.key});
@@ -29,7 +29,7 @@ class BookmarkButton extends StatelessWidget {
         ),
         onTap: () {
           FocusManager.instance.primaryFocus?.unfocus();
-          Navigator.of(context).push(LocalGamesPage.route());
+          context.push('/local');
         },
       );
 }

@@ -10,9 +10,7 @@ import 'package:rawg_clean/injection_container.dart';
 class LocalGamesPage extends StatelessWidget {
   const LocalGamesPage({super.key});
 
-  static MaterialPageRoute<void> route() => MaterialPageRoute(
-        builder: (_) => const LocalGamesPage(),
-      );
+  static const String route = 'local';
 
   @override
   Widget build(BuildContext context) => Scaffold(
