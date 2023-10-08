@@ -1,21 +1,21 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
-import 'package:rawg_clean/features/games/domain/usecases/get_local_games_usecase.dart';
+import 'package:rawg_clean/features/games/domain/usecases/get_favorite_games_usecase.dart';
 import 'package:rawg_clean/features/games/domain/usecases/get_remote_games_usecase.dart';
-import 'package:rawg_clean/features/games/domain/usecases/remove_local_games_usecase.dart';
-import 'package:rawg_clean/features/games/domain/usecases/save_local_games_usecase.dart';
+import 'package:rawg_clean/features/games/domain/usecases/remove_favorite_games_usecase.dart';
+import 'package:rawg_clean/features/games/domain/usecases/save_favorite_games_usecase.dart';
 import 'package:rawg_clean/features/games/presentation/blocs/combine_cubit/combine_games_cubit.dart';
-import 'package:rawg_clean/features/games/presentation/blocs/games/local_games_bloc/favorite_games_bloc.dart';
+import 'package:rawg_clean/features/games/presentation/blocs/games/favorite_games_bloc/favorite_games_bloc.dart';
 import 'package:rawg_clean/features/games/presentation/blocs/games/remote_games_bloc/remote_games_bloc.dart';
 
 class MockGetRemoteGamesUseCase extends Mock implements GetRemoteGamesUseCase {}
 
-class MockGetLocalGamesUseCase extends Mock implements GetLocalGamesUseCase {}
+class MockGetFavoriteGamesUseCase extends Mock implements GetFavoriteGamesUseCase {}
 
-class MockSaveLocalGamesUseCase extends Mock implements SaveLocalGamesUseCase {}
+class MockSaveFavoriteGamesUseCase extends Mock implements SaveFavoriteGamesUseCase {}
 
-class MockRemoveLocalGamesUseCase extends Mock implements RemoveLocalGamesUseCase {}
+class MockRemoveFavoriteGamesUseCase extends Mock implements RemoveFavoriteGamesUseCase {}
 
 class MockCombineGamesCubit extends MockCubit<CombineGamesState> implements CombineGamesCubit {}
 
@@ -30,22 +30,22 @@ void mainCubit() {
     late CombineGamesCubit combineGamesCubit;
 
     late MockGetRemoteGamesUseCase mockGetRemoteGamesUseCase;
-    late MockGetLocalGamesUseCase mockGetLocalGamesUseCase;
-    late MockSaveLocalGamesUseCase mockSaveLocalGamesUseCase;
-    late MockRemoveLocalGamesUseCase removeLocalGamesUseCase;
+    late MockGetFavoriteGamesUseCase mockGetFavoriteGamesUseCase;
+    late MockSaveFavoriteGamesUseCase mockSaveFavoriteGamesUseCase;
+    late MockRemoveFavoriteGamesUseCase removeFavoriteGamesUseCase;
 
     setUp(() {
       mockGetRemoteGamesUseCase = MockGetRemoteGamesUseCase();
-      mockGetLocalGamesUseCase = MockGetLocalGamesUseCase();
+      mockGetFavoriteGamesUseCase = MockGetFavoriteGamesUseCase();
 
-      mockSaveLocalGamesUseCase = MockSaveLocalGamesUseCase();
-      removeLocalGamesUseCase = MockRemoveLocalGamesUseCase();
+      mockSaveFavoriteGamesUseCase = MockSaveFavoriteGamesUseCase();
+      removeFavoriteGamesUseCase = MockRemoveFavoriteGamesUseCase();
 
       remoteGamesBloc = RemoteGamesBloc(mockGetRemoteGamesUseCase);
       favoriteGamesBloc = FavoriteGamesBloc(
-        mockGetLocalGamesUseCase,
-        removeLocalGamesUseCase,
-        mockSaveLocalGamesUseCase,
+        mockGetFavoriteGamesUseCase,
+        removeFavoriteGamesUseCase,
+        mockSaveFavoriteGamesUseCase,
       );
       combineGamesCubit = CombineGamesCubit(remoteGamesBloc, favoriteGamesBloc);
     });

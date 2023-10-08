@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rawg_clean/core/widgets/background_image.dart';
-import 'package:rawg_clean/features/games/presentation/blocs/games/local_games_bloc/favorite_games_bloc.dart';
+import 'package:rawg_clean/features/games/presentation/blocs/games/favorite_games_bloc/favorite_games_bloc.dart';
 import 'package:rawg_clean/features/games/presentation/widgets/custom_scroll_view_wrapper.dart';
 import 'package:rawg_clean/features/games/presentation/widgets/game_card/game_card.dart';
 import 'package:rawg_clean/features/games/presentation/widgets/text_sliver_fill_remaining.dart';
 import 'package:rawg_clean/injection_container.dart';
 
-class LocalGamesPage extends StatelessWidget {
-  const LocalGamesPage({super.key});
+class FavoritesGamesPage extends StatelessWidget {
+  const FavoritesGamesPage({super.key});
 
-  static const String route = 'local';
+  static const String route = 'favorite';
 
   @override
   Widget build(BuildContext context) => Scaffold(

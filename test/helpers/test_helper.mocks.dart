@@ -22,7 +22,7 @@ import 'package:rawg_clean/features/games/domain/entities/game_entity.dart'
     as _i11;
 import 'package:rawg_clean/features/games/domain/entities/pagination_entity.dart'
     as _i10;
-import 'package:rawg_clean/features/games/domain/repositories/local_game_repository.dart'
+import 'package:rawg_clean/features/games/domain/repositories/favorite_game_repository.dart'
     as _i12;
 import 'package:rawg_clean/features/games/domain/repositories/remote_game_repository.dart'
     as _i8;
@@ -184,12 +184,12 @@ class MockRemoteGameRepository extends _i1.Mock
           _i2.Either<_i9.Failure, _i10.PaginationEntity<_i11.GameEntity>>>);
 }
 
-/// A class which mocks [LocalGameRepository].
+/// A class which mocks [FavoriteGameRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockLocalGameRepository extends _i1.Mock
-    implements _i12.LocalGameRepository {
-  MockLocalGameRepository() {
+class MockFavoriteGameRepository extends _i1.Mock
+    implements _i12.FavoriteGameRepository {
+  MockFavoriteGameRepository() {
     _i1.throwOnMissingStub(this);
   }
 

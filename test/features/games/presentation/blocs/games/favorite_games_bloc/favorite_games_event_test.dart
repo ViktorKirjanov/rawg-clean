@@ -1,10 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:rawg_clean/features/games/presentation/blocs/games/local_games_bloc/favorite_games_bloc.dart';
+import 'package:rawg_clean/features/games/presentation/blocs/games/favorite_games_bloc/favorite_games_bloc.dart';
 
 import '../../../../../../helpers/constants/entities.dart';
 
 void main() {
-  group('LocalGamesEvent', () {
+  group('FavoriteGamesEvent', () {
     group('GetSavedGames', () {
       test('supports value equality', () {
         expect(

@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:rawg_clean/core/enums/submission_status_enum.dart';
 import 'package:rawg_clean/core/errors/failure.dart';
-import 'package:rawg_clean/features/games/domain/usecases/get_local_games_usecase.dart';
+import 'package:rawg_clean/features/games/domain/usecases/get_favorite_games_usecase.dart';
 import 'package:rawg_clean/features/games/domain/usecases/get_remote_games_usecase.dart';
 import 'package:rawg_clean/features/games/presentation/blocs/games/remote_games_bloc/remote_games_bloc.dart';
 
@@ -12,7 +12,7 @@ import '../../../../../../helpers/constants/entities.dart';
 
 class MockGetRemoteGamesUseCase extends Mock implements GetRemoteGamesUseCase {}
 
-class MockGetLocalGamesUseCase extends Mock implements GetLocalGamesUseCase {}
+class MockGetFavoriteGamesUseCase extends Mock implements GetFavoriteGamesUseCase {}
 
 void main() {
   late MockGetRemoteGamesUseCase mockGetRemoteGamesUseCase;

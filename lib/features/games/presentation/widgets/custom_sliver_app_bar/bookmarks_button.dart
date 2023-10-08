@@ -29,7 +29,7 @@ class BookmarkButton extends StatelessWidget {
         ),
         onTap: () {
           FocusManager.instance.primaryFocus?.unfocus();
-          context.push('/local');
+          context.push('/favorite');
         },
       );
 }

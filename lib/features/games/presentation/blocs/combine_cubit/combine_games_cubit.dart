@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rawg_clean/core/enums/submission_status_enum.dart';
-import 'package:rawg_clean/features/games/presentation/blocs/games/local_games_bloc/favorite_games_bloc.dart';
+import 'package:rawg_clean/features/games/presentation/blocs/games/favorite_games_bloc/favorite_games_bloc.dart';
 import 'package:rawg_clean/features/games/presentation/blocs/games/remote_games_bloc/remote_games_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -27,14 +27,14 @@ class CombineGamesCubit extends Cubit<CombineGamesState> {
         _favoriteGamesBloc.stream,
         (
           remoteGamesState,
-          localGamesState,
+          favoriteGamesState,
         ) =>
             {
           if (state.status != SubmissionStatus.success)
             {
-              if (remoteGamesState.status.isSuccess && localGamesState.status.isSuccess)
+              if (remoteGamesState.status.isSuccess && favoriteGamesState.status.isSuccess)
                 emit(state.copyWith(status: SubmissionStatus.success))
-              else if (remoteGamesState.status.isInProgress || localGamesState.status.isInProgress)
+              else if (remoteGamesState.status.isInProgress || favoriteGamesState.status.isInProgress)
                 emit(state.copyWith(status: SubmissionStatus.inProgress))
               else if (remoteGamesState.status.isFailure && state.status != SubmissionStatus.failure)
                 emit(
@@ -43,11 +43,11 @@ class CombineGamesCubit extends Cubit<CombineGamesState> {
                     errorMessage: remoteGamesState.errorMessage,
                   ),
                 )
-              else if (localGamesState.status.isFailure && state.status != SubmissionStatus.failure)
+              else if (favoriteGamesState.status.isFailure && state.status != SubmissionStatus.failure)
                 emit(
                   state.copyWith(
                     status: SubmissionStatus.failure,
-                    errorMessage: localGamesState.errorMessage,
+                    errorMessage: favoriteGamesState.errorMessage,
                   ),
                 ),
             },

@@ -4,34 +4,34 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:rawg_clean/core/enums/submission_status_enum.dart';
 import 'package:rawg_clean/core/errors/failure.dart';
-import 'package:rawg_clean/features/games/domain/usecases/get_local_games_usecase.dart';
-import 'package:rawg_clean/features/games/domain/usecases/remove_local_games_usecase.dart';
-import 'package:rawg_clean/features/games/domain/usecases/save_local_games_usecase.dart';
-import 'package:rawg_clean/features/games/presentation/blocs/games/local_games_bloc/favorite_games_bloc.dart';
+import 'package:rawg_clean/features/games/domain/usecases/get_favorite_games_usecase.dart';
+import 'package:rawg_clean/features/games/domain/usecases/remove_favorite_games_usecase.dart';
+import 'package:rawg_clean/features/games/domain/usecases/save_favorite_games_usecase.dart';
+import 'package:rawg_clean/features/games/presentation/blocs/games/favorite_games_bloc/favorite_games_bloc.dart';
 
 import '../../../../../../helpers/constants/entities.dart';
 
-class MockGetLocalGamesUseCase extends Mock implements GetLocalGamesUseCase {}
+class MockGetFavoriteGamesUseCase extends Mock implements GetFavoriteGamesUseCase {}
 
-class MockRemoveLocalGamesUseCase extends Mock implements RemoveLocalGamesUseCase {}
+class MockRemoveFavoriteGamesUseCase extends Mock implements RemoveFavoriteGamesUseCase {}
 
-class MockSaveLocalGamesUseCase extends Mock implements SaveLocalGamesUseCase {}
+class MockSaveFavoriteGamesUseCase extends Mock implements SaveFavoriteGamesUseCase {}
 
 void main() {
-  late MockGetLocalGamesUseCase mockGetLocalGamesUseCase;
-  late MockRemoveLocalGamesUseCase mockRemoveLocalGamesUseCase;
-  late MockSaveLocalGamesUseCase mockSaveLocalGamesUseCase;
+  late MockGetFavoriteGamesUseCase mockGetFavoriteGamesUseCase;
+  late MockRemoveFavoriteGamesUseCase mockRemoveFavoriteGamesUseCase;
+  late MockSaveFavoriteGamesUseCase mockSaveFavoriteGamesUseCase;
 
   setUp(() {
-    mockGetLocalGamesUseCase = MockGetLocalGamesUseCase();
-    mockRemoveLocalGamesUseCase = MockRemoveLocalGamesUseCase();
-    mockSaveLocalGamesUseCase = MockSaveLocalGamesUseCase();
+    mockGetFavoriteGamesUseCase = MockGetFavoriteGamesUseCase();
+    mockRemoveFavoriteGamesUseCase = MockRemoveFavoriteGamesUseCase();
+    mockSaveFavoriteGamesUseCase = MockSaveFavoriteGamesUseCase();
   });
 
   FavoriteGamesBloc buildBloc() => FavoriteGamesBloc(
-        mockGetLocalGamesUseCase,
-        mockRemoveLocalGamesUseCase,
-        mockSaveLocalGamesUseCase,
+        mockGetFavoriteGamesUseCase,
+        mockRemoveFavoriteGamesUseCase,
+        mockSaveFavoriteGamesUseCase,
       );
 
   test('works properly', () {
@@ -43,7 +43,7 @@ void main() {
     expect(buildBloc().state, equals(const FavoriteGamesState()));
   });
 
-  void setUpMockGetLocalGamesUseCaseSuccess() => when(() => mockGetLocalGamesUseCase()).thenAnswer(
+  void setUpMockGetFavoriteGamesUseCaseSuccess() => when(() => mockGetFavoriteGamesUseCase()).thenAnswer(
         (_) async => const Right([
           gameEntity,
           gameEntity,
@@ -54,16 +54,16 @@ void main() {
   group('GetSavedGames', () {
     blocTest<FavoriteGamesBloc, FavoriteGamesState>(
       'should get data from the concrete use case',
-      setUp: setUpMockGetLocalGamesUseCaseSuccess,
+      setUp: setUpMockGetFavoriteGamesUseCaseSuccess,
       build: buildBloc,
       act: (bloc) async => bloc.add(const GetSavedGames()),
       verify: (_) => verify(
-        () => mockGetLocalGamesUseCase(),
+        () => mockGetFavoriteGamesUseCase(),
       ).called(1),
     );
     blocTest<FavoriteGamesBloc, FavoriteGamesState>(
       'should emit [inProgress, success] when data is gotten successfully',
-      setUp: setUpMockGetLocalGamesUseCaseSuccess,
+      setUp: setUpMockGetFavoriteGamesUseCaseSuccess,
       build: buildBloc,
       act: (bloc) async => bloc.add(const GetSavedGames()),
       expect: () => [
@@ -78,14 +78,14 @@ void main() {
         ),
       ],
       verify: (_) => verify(
-        () => mockGetLocalGamesUseCase(),
+        () => mockGetFavoriteGamesUseCase(),
       ).called(1),
     );
 
     blocTest<FavoriteGamesBloc, FavoriteGamesState>(
       'should emit [inProgress, failure] when getting data fails on GetSavedGames',
       setUp: () {
-        when(() => mockGetLocalGamesUseCase())
+        when(() => mockGetFavoriteGamesUseCase())
             .thenAnswer((_) async => const Left(ServerFailure('Oops, something went wrong')));
       },
       build: buildBloc,
@@ -98,35 +98,35 @@ void main() {
         ),
       ],
       verify: (_) => verify(
-        () => mockGetLocalGamesUseCase(),
+        () => mockGetFavoriteGamesUseCase(),
       ).called(1),
     );
   });
 
   group('RemoveGame', () {
-    void setUpMockRemoveLocalGamesUseCaseSuccess() =>
-        when(() => mockRemoveLocalGamesUseCase(game: gameEntity)).thenAnswer(
+    void setUpMockRemoveFavoriteGamesUseCaseSuccess() =>
+        when(() => mockRemoveFavoriteGamesUseCase(game: gameEntity)).thenAnswer(
           (_) async => const Right(true),
         );
 
     blocTest<FavoriteGamesBloc, FavoriteGamesState>(
       'should get data from the concrete use case',
       setUp: () {
-        setUpMockRemoveLocalGamesUseCaseSuccess();
-        setUpMockGetLocalGamesUseCaseSuccess();
+        setUpMockRemoveFavoriteGamesUseCaseSuccess();
+        setUpMockGetFavoriteGamesUseCaseSuccess();
       },
       build: buildBloc,
       act: (bloc) async => bloc.add(const RemoveGame(gameEntity)),
       verify: (_) => verify(
-        () => mockRemoveLocalGamesUseCase(game: gameEntity),
+        () => mockRemoveFavoriteGamesUseCase(game: gameEntity),
       ).called(1),
     );
 
     blocTest<FavoriteGamesBloc, FavoriteGamesState>(
       'should emit [inProgress, success] when data is gotten successfully',
       setUp: () {
-        setUpMockRemoveLocalGamesUseCaseSuccess();
-        setUpMockGetLocalGamesUseCaseSuccess();
+        setUpMockRemoveFavoriteGamesUseCaseSuccess();
+        setUpMockGetFavoriteGamesUseCaseSuccess();
       },
       build: buildBloc,
       act: (bloc) async => bloc.add(const RemoveGame(gameEntity)),
@@ -142,14 +142,14 @@ void main() {
         ),
       ],
       verify: (_) => verify(
-        () => mockRemoveLocalGamesUseCase(game: gameEntity),
+        () => mockRemoveFavoriteGamesUseCase(game: gameEntity),
       ).called(1),
     );
 
     blocTest<FavoriteGamesBloc, FavoriteGamesState>(
-      'should emit [inProgress, failure] when getting data fails on RemoveGame, RemoveLocalGamesUseCase',
+      'should emit [inProgress, failure] when getting data fails on RemoveGame, RemoveFavoriteGamesUseCase',
       setUp: () {
-        when(() => mockRemoveLocalGamesUseCase(game: gameEntity))
+        when(() => mockRemoveFavoriteGamesUseCase(game: gameEntity))
             .thenAnswer((_) async => const Left(ServerFailure('Oops, something went wrong')));
       },
       build: buildBloc,
@@ -162,15 +162,15 @@ void main() {
         ),
       ],
       verify: (_) => verify(
-        () => mockRemoveLocalGamesUseCase(game: gameEntity),
+        () => mockRemoveFavoriteGamesUseCase(game: gameEntity),
       ).called(1),
     );
 
     blocTest<FavoriteGamesBloc, FavoriteGamesState>(
-      'should emit [inProgress, failure] when getting data fails on RemoveGame, GetLocalGamesUseCase',
+      'should emit [inProgress, failure] when getting data fails on RemoveGame, GetFavoriteGamesUseCase',
       setUp: () {
-        setUpMockRemoveLocalGamesUseCaseSuccess();
-        when(() => mockGetLocalGamesUseCase())
+        setUpMockRemoveFavoriteGamesUseCaseSuccess();
+        when(() => mockGetFavoriteGamesUseCase())
             .thenAnswer((_) async => const Left(ServerFailure('Oops, something went wrong')));
       },
       build: buildBloc,
@@ -183,34 +183,35 @@ void main() {
         ),
       ],
       verify: (_) => verify(
-        () => mockRemoveLocalGamesUseCase(game: gameEntity),
+        () => mockRemoveFavoriteGamesUseCase(game: gameEntity),
       ).called(1),
     );
   });
 
   group('SaveGame', () {
-    void setUpMockSaveLocalGamesUseCaseSuccess() => when(() => mockSaveLocalGamesUseCase(game: gameEntity)).thenAnswer(
+    void setUpMockSaveFavoriteGamesUseCaseSuccess() =>
+        when(() => mockSaveFavoriteGamesUseCase(game: gameEntity)).thenAnswer(
           (_) async => const Right(true),
         );
 
     blocTest<FavoriteGamesBloc, FavoriteGamesState>(
       'should get data from the concrete use case',
       setUp: () {
-        setUpMockSaveLocalGamesUseCaseSuccess();
-        setUpMockGetLocalGamesUseCaseSuccess();
+        setUpMockSaveFavoriteGamesUseCaseSuccess();
+        setUpMockGetFavoriteGamesUseCaseSuccess();
       },
       build: buildBloc,
       act: (bloc) async => bloc.add(const SaveGame(gameEntity)),
       verify: (_) => verify(
-        () => mockSaveLocalGamesUseCase(game: gameEntity),
+        () => mockSaveFavoriteGamesUseCase(game: gameEntity),
       ).called(1),
     );
 
     blocTest<FavoriteGamesBloc, FavoriteGamesState>(
       'should emit [inProgress, success] when data is gotten successfully',
       setUp: () {
-        setUpMockSaveLocalGamesUseCaseSuccess();
-        setUpMockGetLocalGamesUseCaseSuccess();
+        setUpMockSaveFavoriteGamesUseCaseSuccess();
+        setUpMockGetFavoriteGamesUseCaseSuccess();
       },
       build: buildBloc,
       act: (bloc) async => bloc.add(const SaveGame(gameEntity)),
@@ -226,14 +227,14 @@ void main() {
         ),
       ],
       verify: (_) => verify(
-        () => mockSaveLocalGamesUseCase(game: gameEntity),
+        () => mockSaveFavoriteGamesUseCase(game: gameEntity),
       ).called(1),
     );
 
     blocTest<FavoriteGamesBloc, FavoriteGamesState>(
-      'should emit [inProgress, failure] when getting data fails on SaveGame, SaveLocalGamesUseCase',
+      'should emit [inProgress, failure] when getting data fails on SaveGame, SaveFavoriteGamesUseCase',
       setUp: () {
-        when(() => mockSaveLocalGamesUseCase(game: gameEntity))
+        when(() => mockSaveFavoriteGamesUseCase(game: gameEntity))
             .thenAnswer((_) async => const Left(ServerFailure('Oops, something went wrong')));
       },
       build: buildBloc,
@@ -246,15 +247,15 @@ void main() {
         ),
       ],
       verify: (_) => verify(
-        () => mockSaveLocalGamesUseCase(game: gameEntity),
+        () => mockSaveFavoriteGamesUseCase(game: gameEntity),
       ).called(1),
     );
 
     blocTest<FavoriteGamesBloc, FavoriteGamesState>(
-      'should emit [inProgress, failure] when getting data fails on SaveGame, GetLocalGamesUseCase',
+      'should emit [inProgress, failure] when getting data fails on SaveGame, GetFavoriteGamesUseCase',
       setUp: () {
-        setUpMockSaveLocalGamesUseCaseSuccess();
-        when(() => mockGetLocalGamesUseCase())
+        setUpMockSaveFavoriteGamesUseCaseSuccess();
+        when(() => mockGetFavoriteGamesUseCase())
             .thenAnswer((_) async => const Left(ServerFailure('Oops, something went wrong')));
       },
       build: buildBloc,
@@ -267,7 +268,7 @@ void main() {
         ),
       ],
       verify: (_) => verify(
-        () => mockSaveLocalGamesUseCase(game: gameEntity),
+        () => mockSaveFavoriteGamesUseCase(game: gameEntity),
       ).called(1),
     );
   });

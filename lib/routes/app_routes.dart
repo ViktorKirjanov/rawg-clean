@@ -1,5 +1,5 @@
 import 'package:go_router/go_router.dart';
-import 'package:rawg_clean/features/games/presentation/pages/local_games_page.dart';
+import 'package:rawg_clean/features/games/presentation/pages/favorites_games_page.dart';
 import 'package:rawg_clean/features/games/presentation/pages/remote_games_page.dart';
 
 class AppRoutes {
@@ -13,9 +13,9 @@ class AppRoutes {
         builder: (context, state) => const RemoteGamesPage(),
         routes: [
           GoRoute(
-            name: 'local',
-            path: LocalGamesPage.route,
-            builder: (context, state) => const LocalGamesPage(),
+            name: 'favorites',
+            path: FavoritesGamesPage.route,
+            builder: (context, state) => const FavoritesGamesPage(),
           ),
         ],
       ),

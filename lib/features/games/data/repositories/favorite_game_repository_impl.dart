@@ -4,11 +4,11 @@ import 'package:dartz/dartz.dart';
 import 'package:rawg_clean/core/errors/failure.dart';
 import 'package:rawg_clean/features/games/data/datasources/local/app_database.dart';
 import 'package:rawg_clean/features/games/domain/entities/game_entity.dart';
-import 'package:rawg_clean/features/games/domain/repositories/local_game_repository.dart';
+import 'package:rawg_clean/features/games/domain/repositories/favorite_game_repository.dart';
 import 'package:sqflite/sqflite.dart';
 
-class LocalGameRepositoryImpl extends LocalGameRepository {
-  LocalGameRepositoryImpl(
+class FavoriteGameRepositoryImpl extends FavoriteGameRepository {
+  FavoriteGameRepositoryImpl(
     this._appDatabase,
   );
 
@@ -17,8 +17,8 @@ class LocalGameRepositoryImpl extends LocalGameRepository {
   @override
   Future<Either<Failure, List<GameEntity>>> getSavedGames() async {
     try {
-      final localGames = await _appDatabase.gameDao.findAll();
-      return Right(localGames);
+      final favoritesGames = await _appDatabase.gameDao.findAll();
+      return Right(favoritesGames);
     } on DatabaseException catch (error, stackTrace) {
       log('🐞Error: $error', stackTrace: stackTrace);
       return const Left(DatabaseFailure('Oops, something went wrong'));
