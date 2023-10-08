@@ -1,17 +1,17 @@
-part of 'local_games_bloc.dart';
+part of 'favorite_games_bloc.dart';
 
-sealed class LocalGamesEvent extends Equatable {
-  const LocalGamesEvent();
+sealed class FavoriteGamesEvent extends Equatable {
+  const FavoriteGamesEvent();
 
   @override
   List<Object> get props => [];
 }
 
-class GetSavedGames extends LocalGamesEvent {
+class GetSavedGames extends FavoriteGamesEvent {
   const GetSavedGames();
 }
 
-class RemoveGame extends LocalGamesEvent {
+class RemoveGame extends FavoriteGamesEvent {
   const RemoveGame(this.game);
 
   final GameEntity game;
@@ -20,7 +20,7 @@ class RemoveGame extends LocalGamesEvent {
   List<Object> get props => [game];
 }
 
-class SaveGame extends LocalGamesEvent {
+class SaveGame extends FavoriteGamesEvent {
   const SaveGame(this.game);
 
   final GameEntity game;

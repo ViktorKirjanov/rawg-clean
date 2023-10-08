@@ -21,6 +21,13 @@ const paginationEntityCopy = PaginationEntity(
   results: [],
 );
 
+const paginationEntityResult = PaginationEntity(
+  count: 853138,
+  next: 'https://api.rawg.io/api/games?key=7e475ba564e14a53a1b42d6f5cb6be06&page=2&page_size=10',
+  previous: null,
+  results: [gameEntity],
+);
+
 const gameEntity = GameEntity(
   id: 3498,
   slug: 'grand-theft-auto-v',

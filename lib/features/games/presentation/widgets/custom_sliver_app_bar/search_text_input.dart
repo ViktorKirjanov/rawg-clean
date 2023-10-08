@@ -2,7 +2,7 @@ import 'package:debouncer_widget/debouncer_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rawg_clean/config/theme/app_themes.dart';
-import 'package:rawg_clean/features/games/presentation/blocs/games/remote_bloc/remote_games_bloc.dart';
+import 'package:rawg_clean/features/games/presentation/blocs/games/remote_games_bloc/remote_games_bloc.dart';
 
 class SearchTextInput extends StatefulWidget {
   const SearchTextInput({super.key});

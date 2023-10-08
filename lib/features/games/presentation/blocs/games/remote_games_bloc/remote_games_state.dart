@@ -3,6 +3,7 @@ part of 'remote_games_bloc.dart';
 class RemoteGamesState extends Equatable {
   const RemoteGamesState({
     this.games = const [],
+    this.likedGames = const [],
     this.page = 1,
     this.search,
     this.hasMorePages = true,
@@ -11,6 +12,7 @@ class RemoteGamesState extends Equatable {
   });
 
   final List<GameEntity> games;
+  final List<GameEntity> likedGames;
   final int page;
   final String? search;
   final bool hasMorePages;
@@ -29,6 +31,7 @@ class RemoteGamesState extends Equatable {
 
   RemoteGamesState copyWith({
     List<GameEntity>? games,
+    List<GameEntity>? likedGames,
     int? page,
     ValueGetter<String?>? search,
     bool? hasMorePages,
@@ -37,6 +40,7 @@ class RemoteGamesState extends Equatable {
   }) =>
       RemoteGamesState(
         games: games ?? this.games,
+        likedGames: likedGames ?? this.likedGames,
         page: page ?? this.page,
         search: search != null ? search() : this.search,
         hasMorePages: hasMorePages ?? this.hasMorePages,
@@ -46,5 +50,5 @@ class RemoteGamesState extends Equatable {
 
   @override
   String toString() =>
-      'RemoteGamesState(games: ${games.length}, page: $page, search: $search, hasMorePages: $hasMorePages, status: $status, errorMessage: $errorMessage)';
+      'RemoteGamesState(games: ${games.length}, likedGames:${likedGames.length},  page: $page, search: $search, hasMorePages: $hasMorePages, status: $status, errorMessage: $errorMessage)';
 }

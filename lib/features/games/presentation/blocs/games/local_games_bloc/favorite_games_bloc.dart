@@ -6,15 +6,15 @@ import 'package:rawg_clean/features/games/domain/usecases/get_local_games_usecas
 import 'package:rawg_clean/features/games/domain/usecases/remove_local_games_usecase.dart';
 import 'package:rawg_clean/features/games/domain/usecases/save_local_games_usecase.dart';
 
-part 'local_games_event.dart';
-part 'local_games_state.dart';
+part 'favorite_games_event.dart';
+part 'favorite_games_state.dart';
 
-class LocalGamesBloc extends Bloc<LocalGamesEvent, LocalGamesState> {
-  LocalGamesBloc(
+class FavoriteGamesBloc extends Bloc<FavoriteGamesEvent, FavoriteGamesState> {
+  FavoriteGamesBloc(
     this._getLocalGamesUseCase,
     this._removeLocalGamesUseCase,
     this._saveLocalGamesUseCase,
-  ) : super(const LocalGamesState()) {
+  ) : super(const FavoriteGamesState()) {
     on<GetSavedGames>(_onGetGames);
     on<RemoveGame>(_onRemoveGame);
     on<SaveGame>(_onSaveGame);
@@ -24,7 +24,7 @@ class LocalGamesBloc extends Bloc<LocalGamesEvent, LocalGamesState> {
   final RemoveLocalGamesUseCase _removeLocalGamesUseCase;
   final SaveLocalGamesUseCase _saveLocalGamesUseCase;
 
-  Future<void> _onGetGames(GetSavedGames event, Emitter<LocalGamesState> emit) async {
+  Future<void> _onGetGames(GetSavedGames event, Emitter<FavoriteGamesState> emit) async {
     emit(state.copyWith(status: SubmissionStatus.inProgress));
     final failureOrResponse = await _getLocalGamesUseCase();
     failureOrResponse.fold(
@@ -43,7 +43,7 @@ class LocalGamesBloc extends Bloc<LocalGamesEvent, LocalGamesState> {
     );
   }
 
-  Future<void> _onRemoveGame(RemoveGame removeGame, Emitter<LocalGamesState> emit) async {
+  Future<void> _onRemoveGame(RemoveGame removeGame, Emitter<FavoriteGamesState> emit) async {
     emit(state.copyWith(status: SubmissionStatus.inProgress));
     final failureOrResponseOnRemove = await _removeLocalGamesUseCase(game: removeGame.game);
     await failureOrResponseOnRemove.fold(
@@ -73,7 +73,7 @@ class LocalGamesBloc extends Bloc<LocalGamesEvent, LocalGamesState> {
     );
   }
 
-  Future<void> _onSaveGame(SaveGame saveGame, Emitter<LocalGamesState> emit) async {
+  Future<void> _onSaveGame(SaveGame saveGame, Emitter<FavoriteGamesState> emit) async {
     emit(state.copyWith(status: SubmissionStatus.inProgress));
     final failureOrResponseOnSave = await _saveLocalGamesUseCase(game: saveGame.game);
     await failureOrResponseOnSave.fold(

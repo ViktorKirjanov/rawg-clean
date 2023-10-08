@@ -48,6 +48,7 @@ class RemoteGamesBloc extends Bloc<RemoteGamesEvent, RemoteGamesState> {
     emit(
       state.copyWith(
         status: SubmissionStatus.inProgress,
+        page: 1,
         games: [],
       ),
     );

@@ -8,9 +8,8 @@ import 'package:rawg_clean/core/widgets/background_image.dart';
 import 'package:rawg_clean/core/widgets/keyboard_dismisser.dart';
 import 'package:rawg_clean/core/widgets/loader.dart';
 import 'package:rawg_clean/core/widgets/refresh.dart';
-import 'package:rawg_clean/features/games/presentation/blocs/combine_cubit/combine_games_cubit.dart';
-import 'package:rawg_clean/features/games/presentation/blocs/games/local_games_bloc/local_games_bloc.dart';
-import 'package:rawg_clean/features/games/presentation/blocs/games/remote_bloc/remote_games_bloc.dart';
+import 'package:rawg_clean/features/games/presentation/blocs/games/local_games_bloc/favorite_games_bloc.dart';
+import 'package:rawg_clean/features/games/presentation/blocs/games/remote_games_bloc/remote_games_bloc.dart';
 import 'package:rawg_clean/features/games/presentation/widgets/android_refresh_indicator.dart';
 import 'package:rawg_clean/features/games/presentation/widgets/custom_scroll_view_wrapper.dart';
 import 'package:rawg_clean/features/games/presentation/widgets/custom_sliver_app_bar/bookmarks_button.dart';
@@ -25,9 +24,8 @@ class RemoteGamesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => MultiBlocProvider(
         providers: [
-          BlocProvider<CombineGamesCubit>(create: (context) => sl()..getData()),
-          BlocProvider<RemoteGamesBloc>(create: (context) => sl()),
-          BlocProvider<LocalGamesBloc>(create: (context) => sl()),
+          BlocProvider<RemoteGamesBloc>(create: (context) => sl()..add(const GetFirstPage())),
+          BlocProvider<FavoriteGamesBloc>(create: (context) => sl()),
         ],
         child: const KeyboardDismisser(
           child: Scaffold(
@@ -44,7 +42,7 @@ class _GamePageView extends StatelessWidget {
   const _GamePageView();
 
   @override
-  Widget build(BuildContext context) => BlocBuilder<CombineGamesCubit, CombineGamesState>(
+  Widget build(BuildContext context) => BlocBuilder<RemoteGamesBloc, RemoteGamesState>(
         builder: (_, state) {
           if (state.status.isInProgress) {
             return const Loader();
@@ -53,7 +51,7 @@ class _GamePageView extends StatelessWidget {
           } else if (state.status.isFailure) {
             return Refresh(
               message: state.errorMessage!,
-              onPressed: () => sl<CombineGamesCubit>().getData(true),
+              onPressed: () => sl<RemoteGamesBloc>().add(const GetFirstPage(reset: true)),
             );
           }
           return const SizedBox.shrink();
@@ -83,7 +81,7 @@ class _GamesState extends StatelessWidget {
               CupertinoSliverRefreshControl(
                 onRefresh: () async => context.read<RemoteGamesBloc>().add(const GetFirstPage()),
               ),
-            BlocListener<LocalGamesBloc, LocalGamesState>(
+            BlocListener<FavoriteGamesBloc, FavoriteGamesState>(
               listener: (context, state) {
                 if (state.status.isFailure) {
                   ScaffoldMessenger.of(context).showSnackBar(

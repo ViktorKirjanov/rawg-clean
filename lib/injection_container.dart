@@ -11,8 +11,8 @@ import 'package:rawg_clean/features/games/domain/usecases/get_remote_games_useca
 import 'package:rawg_clean/features/games/domain/usecases/remove_local_games_usecase.dart';
 import 'package:rawg_clean/features/games/domain/usecases/save_local_games_usecase.dart';
 import 'package:rawg_clean/features/games/presentation/blocs/combine_cubit/combine_games_cubit.dart';
-import 'package:rawg_clean/features/games/presentation/blocs/games/local_games_bloc/local_games_bloc.dart';
-import 'package:rawg_clean/features/games/presentation/blocs/games/remote_bloc/remote_games_bloc.dart';
+import 'package:rawg_clean/features/games/presentation/blocs/games/local_games_bloc/favorite_games_bloc.dart';
+import 'package:rawg_clean/features/games/presentation/blocs/games/remote_games_bloc/remote_games_bloc.dart';
 
 final sl = GetIt.instance;
 
@@ -39,6 +39,6 @@ Future<void> initDependencies() async {
 
     // Blocs
     ..registerSingleton<RemoteGamesBloc>(RemoteGamesBloc(sl()))
-    ..registerSingleton(LocalGamesBloc(sl(), sl(), sl()))
+    ..registerSingleton(FavoriteGamesBloc(sl(), sl(), sl()))
     ..registerSingleton<CombineGamesCubit>(CombineGamesCubit(sl(), sl()));
 }

@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rawg_clean/core/enums/submission_status_enum.dart';
-import 'package:rawg_clean/features/games/presentation/blocs/games/local_games_bloc/local_games_bloc.dart';
-import 'package:rawg_clean/features/games/presentation/blocs/games/remote_bloc/remote_games_bloc.dart';
+import 'package:rawg_clean/features/games/presentation/blocs/games/local_games_bloc/favorite_games_bloc.dart';
+import 'package:rawg_clean/features/games/presentation/blocs/games/remote_games_bloc/remote_games_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
 part 'combine_games_state.dart';
@@ -10,21 +10,21 @@ part 'combine_games_state.dart';
 class CombineGamesCubit extends Cubit<CombineGamesState> {
   CombineGamesCubit(
     this._remoteGamesBloc,
-    this._localGamesBloc,
+    this._favoriteGamesBloc,
   ) : super(const CombineGamesState());
 
   final RemoteGamesBloc _remoteGamesBloc;
-  final LocalGamesBloc _localGamesBloc;
+  final FavoriteGamesBloc _favoriteGamesBloc;
 
   Future<void> getData([bool isRefresh = false]) async {
     if (state.status != SubmissionStatus.success || isRefresh) {
       emit(state.copyWith(status: SubmissionStatus.inProgress));
       _remoteGamesBloc.add(const GetFirstPage());
-      _localGamesBloc.add(const GetSavedGames());
+      _favoriteGamesBloc.add(const GetSavedGames());
 
       Rx.combineLatest2(
         _remoteGamesBloc.stream,
-        _localGamesBloc.stream,
+        _favoriteGamesBloc.stream,
         (
           remoteGamesState,
           localGamesState,

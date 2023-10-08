@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rawg_clean/config/theme/app_themes.dart';
 import 'package:rawg_clean/features/games/domain/entities/game_entity.dart';
-import 'package:rawg_clean/features/games/presentation/blocs/games/local_games_bloc/local_games_bloc.dart';
+import 'package:rawg_clean/features/games/presentation/blocs/games/local_games_bloc/favorite_games_bloc.dart';
 import 'package:rawg_clean/injection_container.dart';
 
 class LikeButton extends StatelessWidget {
@@ -21,7 +21,7 @@ class LikeButton extends StatelessWidget {
   Widget build(BuildContext context) => Positioned(
         top: 8.0,
         right: 8.0,
-        child: BlocBuilder<LocalGamesBloc, LocalGamesState>(
+        child: BlocBuilder<FavoriteGamesBloc, FavoriteGamesState>(
           bloc: sl(),
           builder: (_, state) {
             final isSelected = state.games.firstWhereOrNull((element) => element.id == game.id) != null;
@@ -49,7 +49,9 @@ class LikeButton extends StatelessWidget {
                 ),
               ),
               onTap: () {
-                isSelected ? sl<LocalGamesBloc>().add(RemoveGame(game)) : sl<LocalGamesBloc>().add(SaveGame(game));
+                isSelected
+                    ? sl<FavoriteGamesBloc>().add(RemoveGame(game))
+                    : sl<FavoriteGamesBloc>().add(SaveGame(game));
               },
             );
           },

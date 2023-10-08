@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:dio/dio.dart' as dio;
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:rawg_clean/features/games/data/datasources/remote/games_api_service.dart';
 import 'package:rawg_clean/features/games/data/models/game_model.dart';
@@ -13,7 +12,6 @@ import 'package:retrofit/retrofit.dart';
 import '../../../../../helpers/constants/models.dart';
 import '../../../../../helpers/test_helper.mocks.dart';
 
-@GenerateMocks([GamesDataSource])
 void main() {
   final HttpResponse<PaginationModel<GameModel>> successFetchPostResponse = HttpResponse<PaginationModel<GameModel>>(
     paginationModel,
