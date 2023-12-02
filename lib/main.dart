@@ -1,6 +1,15 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rawg_clean/config/theme/app_themes.dart';
+import 'package:rawg_clean/core/blocs/bloc_observer.dart';
+import 'package:rawg_clean/injection_container.dart';
+import 'package:rawg_clean/routes/app_routes.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  if (kDebugMode) Bloc.observer = AppBlocObserver();
+  await initDependencies();
   runApp(const RawgApp());
 }
 
@@ -8,20 +17,9 @@ class RawgApp extends StatelessWidget {
   const RawgApp({super.key});
 
   @override
-  Widget build(BuildContext context) => MaterialApp(
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
-        home: const HomePage(),
-      );
-}
-
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) => Scaffold(
-        body: Container(),
+  Widget build(BuildContext context) => MaterialApp.router(
+        routerConfig: AppRoutes().router,
+        theme: AppTheme.darkTheme,
+        debugShowCheckedModeBanner: false,
       );
 }
