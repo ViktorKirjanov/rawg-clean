@@ -241,6 +241,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.10.1"
+  debouncer_widget:
+    dependency: "direct main"
+    description:
+      name: debouncer_widget
+      sha256: "3cdd66159949300180d6aa0f869729b9576adf9be65f8e99b05e051068336999"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   diff_match_patch:
     dependency: transitive
     description:
@@ -379,6 +387,11 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_web_plugins:
+    dependency: transitive
+    description: flutter
+    source: sdk
+    version: "0.0.0"
   font_awesome_flutter:
     dependency: "direct main"
     description:
@@ -411,6 +424,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.2"
+  go_router:
+    dependency: "direct main"
+    description:
+      name: go_router
+      sha256: a07c781bf55bf11ae85133338e4850f0b4e33e261c44a66c750fc707d65d8393
+      url: "https://pub.dev"
+    source: hosted
+    version: "11.1.2"
   graphs:
     dependency: transitive
     description:
@@ -816,14 +837,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.10.0"
-  sprintf:
-    dependency: transitive
-    description:
-      name: sprintf
-      sha256: "1fc9ffe69d4df602376b52949af107d8f5703b77cda567c4d7d86a0693120f23"
-      url: "https://pub.dev"
-    source: hosted
-    version: "7.0.0"
   sqflite:
     dependency: "direct main"
     description:
@@ -980,10 +993,10 @@ packages:
     dependency: transitive
     description:
       name: uuid
-      sha256: e03928880bdbcbf496fb415573f5ab7b1ea99b9b04f669c01104d085893c3134
+      sha256: "648e103079f7c64a36dc7d39369cabb358d377078a051d6ae2ad3aa539519313"
       url: "https://pub.dev"
     source: hosted
-    version: "4.0.0"
+    version: "3.0.7"
   vector_graphics:
     dependency: transitive
     description:

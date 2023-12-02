@@ -11,7 +11,9 @@ class InkEffect extends StatelessWidget {
           splashColor: Colors.white.withOpacity(.1),
           highlightColor: Colors.white.withOpacity(.1),
           borderRadius: const BorderRadius.all(Radius.circular(16.0)),
-          onTap: () {},
+          onTap: () {
+            FocusManager.instance.primaryFocus?.unfocus();
+          },
         ),
       );
 }

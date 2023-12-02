@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:rawg_clean/config/theme/app_themes.dart';
 
@@ -22,19 +23,16 @@ class BackgroundImage extends StatelessWidget {
               ),
             ),
           ),
+          Container(color: AppTheme.black.withOpacity(0.9)),
           Container(
             decoration: BoxDecoration(
-              gradient: RadialGradient(
-                center: Alignment.center,
-                radius: 0.75,
+              gradient: LinearGradient(
                 colors: [
-                  AppTheme.black.withOpacity(0.9),
-                  AppTheme.black.withOpacity(0.95),
-                  AppTheme.black.withOpacity(1.0),
+                  const Color.fromARGB(255, 82, 43, 172).withOpacity(0.2),
+                  const Color.fromARGB(255, 11, 3, 12).withOpacity(0.5),
                 ],
                 stops: const [
                   0.0,
-                  0.5,
                   1.0,
                 ],
               ),
